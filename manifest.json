@@ -1,0 +1,9 @@
+{
+  "name": "CosmoPool",
+  "short_name": "CosmoPool",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0b0820",
+  "theme_color": "#0b0820",
+  "start_url": "./"
+}

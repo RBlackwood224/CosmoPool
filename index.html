@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0b0820">
+<meta name="referrer" content="no-referrer">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CosmoPool">
+<link rel="manifest" href="manifest.json">
+<title>CosmoPool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="wrap"><canvas id="screen" width="256" height="240"></canvas></div>
+<div id="rotate" data-i18n="rotate"></div>
+
+<div id="hudL" class="hud hidden"><div id="hudLp"></div><div class="pow"><span data-i18n="power"></span><div id="powCol"></div></div></div>
+<div id="hudR" class="hud hidden"><div id="hudRp"></div></div>
+
+<div id="touch" class="hidden">
+  <button id="tShot" data-i18n="shot">SHOT</button>
+  <button id="tPause" aria-label="pause">II</button>
+</div>
+
+<div id="overlay" class="hidden">
+  <div class="panel" id="scrLang">
+    <h1>COSMOPOOL</h1>
+    <p>CHOOSE LANGUAGE<br>VÁLASSZ NYELVET</p>
+    <button data-act="lang-en">ENGLISH</button>
+    <button data-act="lang-hu">MAGYAR</button>
+  </div>
+
+  <div class="panel hidden" id="scrMain">
+    <h1>COSMOPOOL</h1>
+    <button data-act="vs-cpu" data-i18n="vsCpu"></button>
+    <button data-act="two-p" data-i18n="twoP"></button>
+    <button data-act="online" data-i18n="online"></button>
+    <button data-act="solo" data-i18n="solo"></button>
+    <button data-act="top" data-i18n="toplist"></button>
+    <button data-act="code" data-i18n="levelCode"></button>
+    <button data-act="settings" data-i18n="settings"></button>
+    <a class="btn" id="moreGames" target="_blank" rel="noopener noreferrer" data-i18n="moreGames"></a>
+    <p class="hi" id="hiText"></p>
+    <p class="note" id="codeNote"></p>
+  </div>
+
+  <div class="panel hidden" id="scrSettings">
+    <h2 data-i18n="settings"></h2>
+    <label class="slider"><span data-i18n="musicVol"></span><input type="range" id="mvol" min="0" max="100" step="5"><b id="mvolVal"></b></label>
+    <label class="slider"><span data-i18n="sfxVol"></span><input type="range" id="svol" min="0" max="100" step="5"><b id="svolVal"></b></label>
+    <button data-act="cards" id="btnCards"></button>
+    <button data-act="help" id="btnHelp"></button>
+    <button data-act="fullscreen" data-i18n="fullscreen"></button>
+    <button data-act="lang" data-i18n="language"></button>
+    <button data-act="back" data-i18n="back"></button>
+    <p class="hint" data-i18n="controls"></p>
+  </div>
+
+  <div class="panel hidden" id="scrDiff">
+    <h2 data-i18n="difficulty"></h2>
+    <button data-act="d-easy" data-i18n="easy"></button>
+    <button data-act="d-medium" data-i18n="medium"></button>
+    <button data-act="d-hard" data-i18n="hard"></button>
+    <button data-act="back" data-i18n="back"></button>
+  </div>
+
+  <div class="panel hidden" id="scrOnline">
+    <h2 data-i18n="online"></h2>
+    <button data-act="host" data-i18n="host"></button>
+    <button data-act="join" data-i18n="join"></button>
+    <button data-act="back" data-i18n="back"></button>
+  </div>
+
+  <div class="panel hidden" id="scrHost">
+    <h2 data-i18n="host"></h2>
+    <p data-i18n="yourCode"></p>
+    <div class="bigcode" id="hostCode">------</div>
+    <p class="link" id="hostLink"></p>
+    <button data-act="copy-link" data-i18n="copyLink"></button>
+    <p class="note" id="hostStatus"></p>
+    <button data-act="net-cancel" data-i18n="cancel"></button>
+  </div>
+
+  <div class="panel hidden" id="scrJoin">
+    <h2 data-i18n="join"></h2>
+    <p data-i18n="joinCode"></p>
+    <input id="joinInput" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false">
+    <button data-act="join-go" data-i18n="connect"></button>
+    <p class="note" id="joinStatus"></p>
+    <button data-act="net-cancel" data-i18n="cancel"></button>
+  </div>
+
+  <div class="panel hidden" id="scrCode">
+    <h2 data-i18n="levelCode"></h2>
+    <p data-i18n="codeEnter"></p>
+    <input id="codeInput" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXXXX-00">
+    <button data-act="code-ok" data-i18n="codeOk"></button>
+    <button data-act="code-clear" data-i18n="codeClear"></button>
+    <p class="note" id="codeMsg"></p>
+    <button data-act="back" data-i18n="back"></button>
+  </div>
+
+  <div class="panel hidden" id="scrTop">
+    <h2 data-i18n="toplist"></h2>
+    <table class="top" id="topTable"></table>
+    <button data-act="top-back" data-i18n="back"></button>
+  </div>
+
+  <div class="panel hidden" id="scrPause">
+    <h2 data-i18n="paused"></h2>
+    <button data-act="resume" data-i18n="resume"></button>
+    <button data-act="menu" data-i18n="mainMenu"></button>
+    <p class="note" id="pauseCode"></p>
+  </div>
+
+  <div class="panel hidden" id="scrCards">
+    <h2 id="cardTitle"></h2>
+    <div id="cardRow"></div>
+  </div>
+
+  <div class="panel hidden" id="scrName">
+    <h2 id="nameTitle"></h2>
+    <p data-i18n="enterName"></p>
+    <div id="nameSlots"></div>
+    <button data-act="name-ok" data-i18n="ok"></button>
+  </div>
+
+  <div class="panel hidden" id="scrOver">
+    <h2 id="overTitle"></h2>
+    <table class="stats" id="overStats"></table>
+    <p class="hi" id="overNote"></p>
+    <button data-act="again" data-i18n="again"></button>
+    <button data-act="top" data-i18n="toplist"></button>
+    <button data-act="menu" data-i18n="mainMenu"></button>
+  </div>
+
+  <div class="panel hidden" id="scrMsg">
+    <h2 id="msgText"></h2>
+    <button data-act="menu" data-i18n="mainMenu"></button>
+  </div>
+</div>
+
+<script src="level.js"></script>
+<script src="net.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
