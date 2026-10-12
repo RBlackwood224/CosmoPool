@@ -117,6 +117,16 @@ table.stats td:first-child { color: #c8c0ff; }
 table.top tr:first-child td { color: #ffd84a; }
 table.top td:nth-child(3) { text-align: right; }
 
+/* local 2 players: device join */
+#join2pArea { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 6px; cursor: pointer; }
+.jslot { display: flex; gap: 16px; align-items: center; justify-content: space-between; width: 300px; max-width: 88vw; padding: 12px 14px; border: 3px solid #4a4470; background: rgba(0,0,10,.5); font-size: 11px; }
+.jslot .who { color: #ffd84a; font-size: 14px; }
+.jslot .dev { color: #9890d8; }
+.jslot.next { border-color: #ffd84a; animation: neon 1.2s infinite; }
+.jslot.ok { border-color: #5ae07a; }
+.jslot.ok .dev { color: #5ae07a; }
+#join2pArea .hint { max-width: 330px; }
+
 /* card picker */
 #cardRow { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
 .card {
@@ -133,6 +143,11 @@ table.top td:nth-child(3) { text-align: right; }
 .card.curse { border-color: #ff6a5a; }
 .card.curse .kind { color: #ff6a5a; }
 .card:hover, .card:focus { background: #4a2a8a; transform: translateY(-4px); }
+#cardRow.reveal .card { pointer-events: none; transition: transform .12s, opacity .3s; }
+#cardRow.reveal .card:focus { background: #2a2466; transform: none; }
+#cardRow .card.hi { background: #4a2a8a; transform: translateY(-6px); }
+#cardRow .card.chosen { background: #6a2a8a; transform: translateY(-8px) scale(1.06); box-shadow: 0 0 16px #ffd84a, 4px 4px 0 #000; border-color: #ffd84a; }
+#cardRow .card.faded { opacity: .35; }
 
 /* name entry */
 #nameSlots { display: flex; gap: 14px; }

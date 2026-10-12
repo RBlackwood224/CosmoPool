@@ -44,9 +44,9 @@ const LANG = {
     thinking: '{p} THINKING...', wins: '{p} WINS!', gameOver: 'GAME OVER', newHi: 'NEW HIGH SCORE!', hiscore: 'HIGH SCORE {n}',
     helpLine: 'AIM LINE: {v}', on: 'ON', off: 'OFF', cardsOpt: 'CARDS: {v}', musicVol: 'MUSIC', sfxVol: 'SOUND FX',
     cardFor: '{p} PICKS A CARD', bless: 'BLESSING', curse: 'CURSE', shotsN: '{n} SHOTS', turnsN: '{n} TURNS', instant: 'INSTANT',
-    picked: '{p}: {c}', goblinMsg: 'THE POINT GOBLIN IS HERE!', prankMsg: 'HEY! A GOBLIN ON THE TABLE!', shooHint: 'MASH SHOT TO SCARE HIM!', shooed: 'GOBLIN SCARED AWAY!',
+    picked: '{p}: {c}', goblinMsg: 'THE POINT GOBLIN IS HERE!', prankMsg: 'HEY! A GOBLIN ON THE TABLE!', shooHint: 'MASH SHOT TO SCARE HIM!', duelKeys2p: 'P1: SPACE   P2: ENTER', padA: 'A BUTTON', keySpace: 'SPACE', sideL: 'LEFT', sideR: 'RIGHT', tap: 'TAP', join2pTitle: 'WHO PLAYS WITH WHAT?', join2pHint: 'EACH PLAYER PRESSES A BUTTON ON THEIR OWN CONTROLLER (A), THE KEYBOARD (SPACE) OR TAPS THE SCREEN', pressAny: 'PRESS A BUTTON...', devPad: 'CONTROLLER {n}', devKb: 'KEYBOARD', devTouch: 'TOUCH SCREEN', startGame: 'START', rejoin: 'START OVER', duelTouch2p: 'P1: LEFT SIDE  P2: RIGHT SIDE', goblinName: 'GOBLIN', duelFar: '{p} WINS! FAR AWAY IT GOES!', duelDraw: 'DRAW! JUST A NUDGE', shooed: 'GOBLIN SCARED AWAY!',
     saved: 'SECOND CHANCE!', extraUsed: 'ANOTHER CHANCE!', quakeMsg: 'EARTHQUAKE!', toYou: 'SELF', toEnemy: 'ON {p}',
-    goldMsg: 'GOLD BALL! +500', combo2: 'DOUBLE!', combo3: 'TRIPLE!', comboN: 'SUPER x{n}!',
+    goldMsg: 'GOLD BALL! +500', cleared: 'TABLE CLEARED!', combo2: 'DOUBLE!', combo3: 'TRIPLE!', comboN: 'SUPER x{n}!',
     codeLabel: 'LEVEL CODE: {c}', codeEnter: 'TYPE A LEVEL CODE', codeOk: 'USE CODE', codeBad: 'INVALID CODE', codeSet: 'NEXT GAME STARTS ON {c}', codeClear: 'CLEAR CODE',
     stPots: 'BALLS', stRun: 'BEST RUN', stScr: 'SCRATCHES', stShoo: 'GOBLINS SHOOED', stCombo: 'BEST COMBO', stStage: 'STAGE', score: 'SCORE',
     newRecord: 'NEW RECORD! {p}', enterName: 'ENTER YOUR NAME', topEmpty: 'NO RECORDS YET', ok: 'OK',
@@ -67,9 +67,9 @@ const LANG = {
     thinking: '{p} GONDOLKODIK...', wins: '{p} NYERT!', gameOver: 'JÁTÉK VÉGE', newHi: 'ÚJ REKORD!', hiscore: 'REKORD: {n}',
     helpLine: 'SEGÍTŐ VONAL: {v}', on: 'BE', off: 'KI', cardsOpt: 'KÁRTYÁK: {v}', musicVol: 'ZENE', sfxVol: 'EFFEKTEK',
     cardFor: '{p} KÁRTYÁT VÁLASZT', bless: 'ÁLDÁS', curse: 'ÁTOK', shotsN: '{n} LÖVÉS', turnsN: '{n} KÖR', instant: 'AZONNALI',
-    picked: '{p}: {c}', goblinMsg: 'ITT A PONTLOPÓ MANÓ!', prankMsg: 'HÉ! MANÓ AZ ASZTALON!', shooHint: 'NYOMKODD A LÖVÉST!', shooed: 'ELZAVARTAD A MANÓT!',
+    picked: '{p}: {c}', goblinMsg: 'ITT A PONTLOPÓ MANÓ!', prankMsg: 'HÉ! MANÓ AZ ASZTALON!', shooHint: 'NYOMKODD A LÖVÉST!', duelKeys2p: 'P1: SZÓKÖZ   P2: ENTER', padA: 'A GOMB', keySpace: 'SZÓKÖZ', sideL: 'BAL OLDAL', sideR: 'JOBB OLDAL', tap: 'KOPPINTÁS', join2pTitle: 'KI MIVEL JÁTSZIK?', join2pHint: 'MINDENKI NYOMJA MEG A SAJÁT KONTROLLERÉN AZ A GOMBOT, VAGY A SZÓKÖZT, VAGY KOPPINTSON A KÉPERNYŐRE', pressAny: 'NYOMJ MEG EGY GOMBOT...', devPad: '{n}. KONTROLLER', devKb: 'BILLENTYŰZET', devTouch: 'ÉRINTŐKÉPERNYŐ', startGame: 'INDÍTÁS', rejoin: 'ÚJRAKEZDÉS', duelTouch2p: 'P1: BAL OLDAL  P2: JOBB OLDAL', goblinName: 'MANÓ', duelFar: '{p} NYERT! MESSZIRE TOLJA!', duelDraw: 'DÖNTETLEN! CSAK EGY KICSIT', shooed: 'ELZAVARTAD A MANÓT!',
     saved: 'MÁSODIK ESÉLY!', extraUsed: 'MÉG EGY ESÉLY!', quakeMsg: 'FÖLDRENGÉS!', toYou: 'MAGADNAK', toEnemy: '{p} KAPJA',
-    goldMsg: 'ARANYGOLYÓ! +500', combo2: 'DUPLA!', combo3: 'TRIPLA!', comboN: 'SZUPER x{n}!',
+    goldMsg: 'ARANYGOLYÓ! +500', cleared: 'ASZTAL KÉSZ!', combo2: 'DUPLA!', combo3: 'TRIPLA!', comboN: 'SZUPER x{n}!',
     codeLabel: 'PÁLYAKÓD: {c}', codeEnter: 'ÍRD BE A PÁLYAKÓDOT', codeOk: 'KÓD HASZNÁLATA', codeBad: 'HIBÁS KÓD', codeSet: 'A KÖVETKEZŐ JÁTÉK ITT INDUL: {c}', codeClear: 'KÓD TÖRLÉSE',
     stPots: 'GOLYÓ', stRun: 'LEGJOBB SOR', stScr: 'FEHÉR BEESETT', stShoo: 'ELZAVART MANÓ', stCombo: 'LEGJOBB KOMBÓ', stStage: 'PÁLYA', score: 'PONT',
     newRecord: 'ÚJ REKORD! {p}', enterName: 'ÍRD BE A NEVED', topEmpty: 'MÉG NINCS REKORD', ok: 'OK',
@@ -245,10 +245,13 @@ function anyMoving(bs) {
 }
 function cloneBalls(bs) { return bs.map(b => ({ num: b.num, x: b.x, y: b.y, vx: 0, vy: 0, in: b.in, lock: b.lock })); }
 
+// cue speed: a touch extra near full power (+7% at max, almost nothing for soft shots)
+function shotSpeed(power) { return power * MAXV * (1 + 0.07 * power * power) * phys.powerMul; }
+
 function simulate(src, angle, power) {
   const bs = cloneBalls(src), t0 = LV.t;
-  bs[0].vx = Math.cos(angle) * power * MAXV * phys.powerMul;
-  bs[0].vy = Math.sin(angle) * power * MAXV * phys.powerMul;
+  bs[0].vx = Math.cos(angle) * shotSpeed(power);
+  bs[0].vy = Math.sin(angle) * shotSpeed(power);
   for (let s = 0; s < 4000; s++) {
     step(bs, DT, null);
     if ((s & 7) === 7 && !anyMoving(bs)) break;
@@ -263,13 +266,46 @@ function simulate(src, angle, power) {
 //  CPU PLAYER
 // =====================================================================
 const DIFF = {
-  easy:   { max: 24,  rand: 6,  an: 0.045, pn: 0.12, powers: [0.55],            look: false },
-  medium: { max: 60,  rand: 8,  an: 0.016, pn: 0.06, powers: [0.42, 0.65],      look: false },
-  hard:   { max: 120, rand: 10, an: 0.004, pn: 0.02, powers: [0.38, 0.58, 0.85], look: true }
+  easy:   { max: 26,  rand: 6,  sweep: 0,  an: 0.045, pn: 0.12, powers: [0.55],            look: false },
+  medium: { max: 72,  rand: 6,  sweep: 12, an: 0.016, pn: 0.06, powers: [0.42, 0.65],      look: false },
+  hard:   { max: 150, rand: 6,  sweep: 20, an: 0.004, pn: 0.02, powers: [0.38, 0.58, 0.85], look: true }
 };
 
-function shotOptions(bs) {
-  // "ghost ball" shots: every ball into every pocket that isn't an impossible cut
+// is the straight path from (x1,y1) to (x2,y2) free for a rolling ball?
+// (walls, blocks, bumpers and other balls block it)
+function pathClear(bs, x1, y1, x2, y2, skipA, skipB) {
+  const dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy);
+  if (L < 1) return true;
+  const ux = dx / L, uy = dy / L;
+  for (let d = 3; d < L; d += 3) {
+    const x = x1 + ux * d, y = y1 + uy * d;
+    for (const s of cellSegs(LV, x, y)) if (segPointDist(x, y, s.x1, s.y1, s.x2, s.y2) < R - 0.3) return false;
+    for (const m of LV.bumpers) if (Math.hypot(m.x - x, m.y - y) < m.r + R) return false;
+    for (const o of bs) if (!o.in && o !== skipA && o !== skipB && Math.hypot(o.x - x, o.y - y) < D - 0.5) return false;
+  }
+  return true;
+}
+
+// one-cushion bank: bounce the cue ball off segment s so it arrives at the ghost spot (gx,gy)
+function bankShot(bs, c, b, gx, gy, s) {
+  const sx = s.x2 - s.x1, sy = s.y2 - s.y1, sl = Math.hypot(sx, sy);
+  if (sl < 16) return null;
+  let nx = -sy / sl, ny = sx / sl;
+  if ((c.x - s.x1) * nx + (c.y - s.y1) * ny < 0) { nx = -nx; ny = -ny; }       // normal toward the cue ball
+  const dc = (c.x - s.x1) * nx + (c.y - s.y1) * ny - R, dg = (gx - s.x1) * nx + (gy - s.y1) * ny - R;
+  if (dc <= 1 || dg <= 1) return null;                                          // both must be on the playing side
+  const mx = gx - 2 * dg * nx, my = gy - 2 * dg * ny;                           // ghost mirrored behind the cushion line
+  const k = dc / (dc + dg);
+  const hx = c.x + (mx - c.x) * k, hy = c.y + (my - c.y) * k;                   // where the ball centre touches
+  const u = ((hx - R * nx - s.x1) * sx + (hy - R * ny - s.y1) * sy) / (sl * sl);
+  if (u < 0.08 || u > 0.92) return null;
+  if (!pathClear(bs, c.x, c.y, hx, hy, c, null) || !pathClear(bs, hx, hy, gx, gy, c, b)) return null;
+  return Math.atan2(my - c.y, mx - c.x);
+}
+
+function shotOptions(bs, deep) {
+  // "ghost ball" shots: every ball into every pocket; blocked lines count much less,
+  // and with deep=true one-cushion banks are tried for blocked balls
   const c = bs[0], out = [];
   for (let i = 1; i < bs.length; i++) {
     const b = bs[i];
@@ -280,8 +316,20 @@ function shotOptions(bs) {
       const ux = gx - c.x, uy = gy - c.y, ul = Math.hypot(ux, uy);
       if (ul < 1) continue;
       const cos = (ux * vx + uy * vy) / (ul * vl);
-      if (cos < 0.2) continue;
-      out.push({ a: Math.atan2(uy, ux), ease: cos });
+      const pocketFree = pathClear(bs, b.x, b.y, b.x + vx / vl * Math.max(0, vl - p.r), b.y + vy / vl * Math.max(0, vl - p.r), b, null);
+      if (cos >= 0.2) {
+        const cueFree = pathClear(bs, c.x, c.y, gx - ux / ul, gy - uy / ul, c, b);
+        out.push({ a: Math.atan2(uy, ux), ease: cos * (cueFree ? 1 : 0.12) * (pocketFree ? 1 : 0.25), clear: cueFree && pocketFree });
+        if (cueFree || !deep || !pocketFree) continue;
+      } else if (!deep || !pocketFree) continue;
+      // straight line blocked (or impossible cut): look for a bank off a cushion / wall
+      let banks = 0;
+      for (const s of LV.segs) {
+        const a = bankShot(bs, c, b, gx, gy, s);
+        if (a == null) continue;
+        out.push({ a, ease: Math.max(0.25, cos) * 0.55, clear: true, bank: true });
+        if (++banks >= 2) break;
+      }
     }
   }
   return out;
@@ -292,12 +340,15 @@ function angDiff(a, b) { return Math.atan2(Math.sin(a - b), Math.cos(a - b)); }
 
 function startAI(diffName) {
   const df = DIFF[diffName] || DIFF.medium;
-  let opts = shotOptions(G.balls);
-  if (diffName === 'easy') opts.sort(() => Math.random() - 0.5);
+  let opts = shotOptions(G.balls, diffName !== 'easy');
+  if (diffName === 'easy') opts.sort((a, b) => b.ease * (0.4 + Math.random()) - a.ease * (0.4 + Math.random()));
   else opts.sort((a, b) => b.ease - a.ease);
   const cands = [];
-  for (const o of opts) for (const p of df.powers) cands.push({ a: o.a, p });
-  cands.length = Math.min(cands.length, df.max - df.rand);
+  for (const o of opts) for (const p of (o.bank ? df.powers.map(x => Math.min(1, x + 0.15)) : df.powers)) cands.push({ a: o.a, p });
+  cands.length = Math.min(cands.length, df.max - df.rand - df.sweep);
+  // a ring of shots all around: finds bumper / wormhole / multi-cushion luck when nothing is clear
+  const off = Math.random() * Math.PI * 2;
+  for (let i = 0; i < df.sweep; i++) cands.push({ a: off + i / df.sweep * Math.PI * 2, p: 0.5 + (i % 3) * 0.15 });
   const live = G.balls.filter(b => b.num > 0 && !b.in);
   for (let i = 0; i < df.rand && live.length; i++) {
     const b = live[(Math.random() * live.length) | 0];
@@ -310,7 +361,7 @@ function evalCand(ai, c) {
   const r = simulate(G.balls, c.a, c.p);
   let score = r.pot * 100 + (r.gold ? 150 : 0) - (r.scratch ? 800 : 0) - c.p * 4 + Math.random();
   if (ai.df.look && r.pot > 0 && !r.scratch) {
-    const next = shotOptions(r.bs).filter(o => o.ease > 0.7).length;
+    const next = shotOptions(r.bs, false).filter(o => o.clear && o.ease > 0.7).length;
     score += Math.min(5, next) * 3;
   }
   if (score > ai.bestScore) { ai.bestScore = score; ai.best = c; }
@@ -570,18 +621,36 @@ function drawGoblin(g) {
 }
 
 // ---------- card picking ----------
+function cpuCardsUpdate(dt) {
+  const P = G.cpuPick, cards = [...document.querySelectorAll('#cardRow .card')];
+  P.t += dt;
+  if (P.t < 1.8) {                                // highlight hops between the cards...
+    const hi = Math.floor(P.t * (P.t < 1.2 ? 7 : 4)) % 3;
+    if (hi !== P.hi) { P.hi = hi; cards.forEach((c, i) => c.classList.toggle('hi', i === hi)); beep(700 + hi * 120, 0.04, 'square', 0.03); }
+  } else if (!P.done) {                           // ...then stops on the chosen one
+    P.done = true;
+    cards.forEach((c, i) => { c.classList.toggle('hi', false); c.classList.toggle('chosen', i === P.idx); c.classList.toggle('faded', i !== P.idx); });
+    sfx('perfect');
+  } else if (P.t > 3.6) {
+    const c = G.cardHand[P.idx], pi = G.cardFor, p = G.players[pi];
+    G.cpuPick = null;
+    hideOverlay();
+    G.lastPick = { k: (G.lastPick ? G.lastPick.k : 0) + 1, pi, id: c.id };
+    G.phase = 'wait'; G.timer = 0.6;
+    applyCard(pi, c);
+    if (c.id !== 'goblin') showMsg(t('picked', { p: p.name, c: cardText(c)[0] }), 2.4);
+  }
+}
+
 function startCardPick(pi) {
   G.phase = 'cards';
   G.cardFor = pi;
   G.cardHand = drawCards(3, pi);
   const p = G.players[pi];
-  if (p.cpu) {
-    const c = G.cardHand[(Math.random() * 3) | 0];
-    G.phase = 'wait'; G.timer = 1.6;
-    G.lastPick = { k: (G.lastPick ? G.lastPick.k : 0) + 1, pi, id: c.id };
-    applyCard(pi, c);
-    showMsg(t('picked', { p: p.name, c: cardText(c)[0] }), 2.4);
-    sfx('perfect');
+  if (p.cpu) {                                    // the CPU "thinks" over its cards on screen
+    G.phase = 'cpucards';
+    G.cpuPick = { t: 0, idx: (Math.random() * 3) | 0, hi: -1, done: false };
+    showCardScreen(true);
     return;
   }
   if (G.net && pi !== G.net.me) {                 // the guest picks on their own screen
@@ -592,10 +661,11 @@ function startCardPick(pi) {
   showCardScreen();
 }
 
-function showCardScreen() {
+function showCardScreen(reveal) {
   const p = G.players[G.cardFor], foe = G.players[1 - G.cardFor];
   const box = document.getElementById('cardRow');
   box.innerHTML = '';
+  box.classList.toggle('reveal', !!reveal);
   G.cardHand.forEach((c, i) => {
     const [name, desc] = cardText(c);
     const b = document.createElement('button');
@@ -607,11 +677,12 @@ function showCardScreen() {
     b.querySelector('.name').textContent = name;
     b.querySelector('.desc').textContent = desc;
     b.querySelector('.dur').textContent = dur + ' · ' + who;
-    b.addEventListener('click', () => pickCard(i));
+    if (reveal) b.tabIndex = -1; else b.addEventListener('click', () => pickCard(i));
     box.appendChild(b);
   });
   document.getElementById('cardTitle').textContent = t('cardFor', { p: p.name });
   showScreen('scrCards');
+  if (reveal && document.activeElement) document.activeElement.blur();
 }
 
 function pickCard(i) {
@@ -647,7 +718,7 @@ function newGame(mode, opt = {}) {
   const code = opt.code !== undefined ? opt.code : pendingCode;
   if (opt.code === undefined) pendingCode = null;
   G = {
-    mode, diff: opt.diff || 'medium', net: opt.net || null,
+    mode, diff: opt.diff || 'medium', net: opt.net || null, dev: mode === '2p' ? (opt.dev || null) : null,
     players: defs.map(p => ({ cpu: false, ...p, score: 0, lives: START_LIVES, fx: [], rack: [], st: { pots: 0, run: 0, bestRun: 0, scr: 0, shoo: 0, combo: 0 } })),
     cards: mode === 'solo' ? false : (opt.cards !== undefined ? opt.cards : cardsOn),
     runSeed: opt.runSeed || (((Math.random() * 0x3FFFFFFF) | 0) + 1), code: code || null,
@@ -689,8 +760,8 @@ function shoot(angle, power, raw) {
   const c = G.balls[0];
   if (!raw) angle += G.aimOff;
   if (G.mods.shaky) power = Math.max(0.1, Math.min(1, power * (1 + (Math.random() - 0.5) * 0.24)));
-  c.vx = Math.cos(angle) * power * MAXV * phys.powerMul;
-  c.vy = Math.sin(angle) * power * MAXV * phys.powerMul;
+  c.vx = Math.cos(angle) * shotSpeed(power);
+  c.vy = Math.sin(angle) * shotSpeed(power);
   G.moveT = 0;
   G.phase = 'moving';
   pendingShot = false;
@@ -702,32 +773,34 @@ function shoot(angle, power, raw) {
 }
 
 // =====================================================================
-//  GOBLIN PRANK — very rarely the goblin sneaks onto the table right
-//  after a shot to nudge the targeted ball away. Mash SHOT to scare him off!
+//  GOBLIN PRANK — very rarely the goblin sneaks onto the table right after a
+//  shot and grabs the targeted ball. Then a 5-second mashing duel decides:
+//  the shooter mashes to scare him away, the opponent mashes to help him.
+//  Shooter wins -> he flees, ball stays.  Opponent wins -> ball goes far.
+//  Draw -> a small nudge.  vs CPU the computer mashes too; in practice
+//  mode the goblin himself pushes back.
 // =====================================================================
-const PRANK_CHANCE = 0.035, SHOO_HITS = 6;
+const PRANK_CHANCE = 0.035, DUEL_TIME = 5;
+const CPU_MASH = { easy: 4.5, medium: 6.5, hard: 8.5 }, GOBLIN_MASH = 5.5;
 function maybePrank(angle) {
   if (!G.cards || G.prankCool > 0 || Math.random() > PRANK_CHANCE) return;
   const tr = aimTrace(G.balls, angle);
   const b = tr.hit;
   if (!b) return;
+  // push direction: sideways to the shot, to whichever side has room
   const px = -Math.sin(angle), py = Math.cos(angle);
-  let dest = null;
-  for (const d of [16, 13, 10]) for (const sgn of Math.random() < 0.5 ? [1, -1] : [-1, 1]) {
-    const x = b.x + px * d * sgn, y = b.y + py * d * sgn;
-    if (!dest && spotFree(LV, G.balls, x, y, b)) dest = { x, y };
+  let dir = null;
+  for (const sgn of Math.random() < 0.5 ? [1, -1] : [-1, 1]) {
+    if (!dir && spotFree(LV, G.balls, b.x + px * 10 * sgn, b.y + py * 10 * sgn, b)) dir = { x: px * sgn, y: py * sgn };
   }
-  if (!dest) return;
+  if (!dir) return;
   const c = G.balls[0];
-  const pdx = dest.x - b.x, pdy = dest.y - b.y, pl = Math.hypot(pdx, pdy);
   const fromLeft = b.x < LV.cx;       // comes in from the nearest side
-  const shooter = cur();
   const sx = fromLeft ? LV.bbox.x0 - 26 : LV.bbox.x1 + 26;
   G.prank = {
-    b, cv: { x: c.vx, y: c.vy }, from: { x: b.x, y: b.y }, to: dest,
-    stand: { x: b.x - pdx / pl * 9, y: b.y - pdy / pl * 9 },
-    exitX: sx, hits: 0, shooed: false,
-    cpuShoo: shooter.cpu ? ({ easy: 0.25, medium: 0.45, hard: 0.65 }[G.diff] || 0.4) > Math.random() : false, cpuT: 0,
+    b, cv: { x: c.vx, y: c.vy }, from: { x: b.x, y: b.y }, to: { x: b.x, y: b.y }, dir,
+    stand: { x: b.x - dir.x * 9, y: b.y - dir.y * 9 }, exitX: sx,
+    cnt: [0, 0], duelT: DUEL_TIME, res: null, syncT: 0, cpuT: 0.4, lastTick: 6,
     g: { st: 'in', t: 0, x: sx, y: b.y - 11, face: fromLeft ? 1 : -1, wink: false }
   };
   c.vx = 0; c.vy = 0;
@@ -736,38 +809,95 @@ function maybePrank(angle) {
   showMsg(t('prankMsg'), 99);
   sfx('scratch'); vib([40, 40, 40]);
 }
-function prankHit(fromNet) {
+// who is the "other side" of the duel: player 1 (2P / CPU / online) or the goblin (practice)
+function duelNames() { return [G.players[0].name, G.players[1] ? G.players[1].name : t('goblinName')]; }
+function shooterIdx() { return G.players.length > 1 ? G.cur : 0; }
+function oppIdx() { return G.players.length > 1 ? 1 - G.cur : 1; }
+function duelOpen() { const P = G && G.prank; return P && !P.res && (P.g.st === 'in' || P.g.st === 'duel'); }
+
+// one press for player pi (0 / 1)
+function mash(pi, fromNet) {
   const P = G && G.prank;
-  if (!P) return;
-  if (G.net) {
-    if (!G.net.host) { if (G.cur === G.net.me) Net.send({ t: 'prankHit' }); return; }
-    if (!fromNet && G.cur !== G.net.me) return;      // only the shooter can shoo
-    if (fromNet && G.cur === G.net.me) return;
+  if (!duelOpen() || pi == null) return;
+  if (G.net && !G.net.host) { if (!fromNet) Net.send({ t: 'mash' }); beep(500 + (pi ? 200 : 0), 0.03, 'square', 0.03); return; }
+  P.cnt[pi]++;
+  beep(pi === shooterIdx() ? 700 + Math.min(P.cnt[pi], 40) * 8 : 420 + Math.min(P.cnt[pi], 40) * 6, 0.03, 'square', 0.035);
+}
+// map a key / tap / pad to a player
+function localPlayer() { return G.net ? G.net.me : 0; }
+// which players own a device of this kind (local 2 players)
+function ownersOf(kind) { return G.dev ? [0, 1].filter(i => G.dev[i] === kind || (kind === 'mouse' && G.dev[i] === 'kb')) : []; }
+function mashKey(code) {
+  if (G.mode !== '2p') { mash(localPlayer()); return; }
+  const own = ownersOf('kb');
+  if (own.length === 2 || !G.dev) { if (code === 'Space') mash(0); else mash(1); }   // shared keyboard: SPACE = P1, ENTER = P2
+  else if (own.length === 1) mash(own[0]);
+}
+function mashPointer(clientX, kind) {
+  if (G.mode !== '2p') { mash(localPlayer()); return; }
+  const own = ownersOf(kind === 'touch' ? 'touch' : 'mouse');
+  if (own.length === 2 || !G.dev) mash(clientX < innerWidth / 2 ? 0 : 1);           // shared screen: left / right half
+  else if (own.length === 1) mash(own[0]);
+}
+let padAPrev = {};
+function mashPads() {
+  const pads = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean) : [];
+  for (const p of pads) {
+    const a = !!(p.buttons[0] && p.buttons[0].pressed);
+    if (a && !padAPrev[p.index]) {
+      if (G.mode !== '2p') mash(localPlayer());
+      else { const own = ownersOf('pad:' + p.index); if (own.length) mash(own[0]); else if (!G.dev) mash(Math.min(p.index, 1)); }
+    }
+    padAPrev[p.index] = a;
   }
-  prankApplyHit();
-  if (isHost()) Net.send({ t: 'prankSync', hits: P.hits, shooed: P.shooed });
 }
-function prankApplyHit() {
-  const P = G.prank;
-  if (!P || P.shooed || (P.g.st !== 'in' && P.g.st !== 'push')) return;
-  P.hits++;
-  beep(600 + P.hits * 120, 0.05, 'square', 0.05);
-  if (P.hits >= SHOO_HITS) prankScare();
+// what each player has to press in the duel (shown under the tug bar)
+function duelHint2p() {
+  if (!G.dev) return touchMode ? t('duelTouch2p') : t('duelKeys2p');
+  const shared = k => G.dev[0] === k && G.dev[1] === k;
+  const one = i => {
+    const d = G.dev[i];
+    if (d.startsWith('pad:')) return t('padA');
+    if (d === 'kb') return shared('kb') ? (i ? 'ENTER' : t('keySpace')) : t('keySpace');
+    return shared('touch') ? (i ? t('sideR') : t('sideL')) : t('tap');
+  };
+  return 'P1: ' + one(0) + '   P2: ' + one(1);
 }
-function prankScare() {
-  const P = G.prank;
-  P.shooed = true;
-  P.g.st = 'scared'; P.g.t = 0;
-  P.backFrom = { x: P.b.x, y: P.b.y };
-  cur().st.shoo++;
-  showMsg(t('shooed'), 1.6);
-  [1200, 900, 600].forEach((f, i) => beep(f, 0.07, 'square', 0.05, 0, i * 0.06));
+
+function prankDecide() {
+  const P = G.prank, s = P.cnt[shooterIdx()], o = P.cnt[oppIdx()];
+  let res = s > o ? 'flee' : s < o ? 'far' : 'nudge', to = null;
+  if (res !== 'flee') {
+    const dists = res === 'far' ? [28, 24, 20, 17, 14] : [10, 8, 12];
+    for (const sgn of [1, -1]) for (const d of dists) {
+      const x = P.from.x + P.dir.x * d * sgn, y = P.from.y + P.dir.y * d * sgn;
+      if (!to && spotFree(LV, G.balls, x, y, P.b)) to = { x, y };
+    }
+    if (!to) res = 'flee';
+  }
+  prankResult(res, to);
+  if (isHost()) Net.send({ t: 'duelEnd', res, to, cnt: P.cnt });
 }
-function prankUpdate(dt, pad) {
+function prankResult(res, to) {
+  const P = G.prank, g = P.g;
+  P.res = res;
+  if (res === 'flee') {
+    g.st = 'scared'; g.t = 0;
+    G.players[shooterIdx()] && G.players[shooterIdx()].st && G.players[shooterIdx()].st.shoo++;
+    showMsg(t('shooed'), 1.8);
+    [1200, 900, 600].forEach((f, i) => beep(f, 0.07, 'square', 0.05, 0, i * 0.06));
+  } else {
+    P.to = to;
+    g.st = 'push'; g.t = 0;
+    const names = duelNames();
+    showMsg(res === 'far' ? t('duelFar', { p: names[oppIdx()] }) : t('duelDraw'), 1.8);
+    beep(160, 0.12, 'triangle', 0.09);
+  }
+}
+function prankUpdate(dt) {
   const P = G.prank, g = P.g;
   g.t += dt;
-  if (edge(pad, 'a')) prankHit();
-  if (P.cpuShoo) { P.cpuT += dt; if (P.cpuT > 0.16) { P.cpuT = 0; prankApplyHit(); } }
+  mashPads();
   const walk = (tx, ty, sp) => {
     const dx = tx - g.x, dy = ty - g.y, d = Math.hypot(dx, dy);
     if (Math.abs(dx) > 0.5) g.face = dx < 0 ? -1 : 1;
@@ -776,8 +906,28 @@ function prankUpdate(dt, pad) {
     g.x += dx / d * sp * dt; g.y += dy / d * sp * dt; return false;
   };
   switch (g.st) {
-    case 'in': if (walk(P.stand.x, P.stand.y - 11, 50)) { g.st = 'push'; g.t = 0; beep(160, 0.08, 'triangle', 0.08); } break;
+    case 'in': if (walk(P.stand.x, P.stand.y - 11, 70)) { g.st = 'duel'; g.t = 0; P.duelT = DUEL_TIME; } break;
+    case 'duel': {
+      g.face = P.dir.x >= 0 ? 1 : -1;
+      if (!isGuest()) {
+        // the computer (or the goblin himself) mashes too
+        const auto = G.mode === 'solo' ? 1 : (G.mode === 'cpu' ? 1 : -1);
+        if (auto >= 0) {
+          const rate = G.mode === 'solo' ? GOBLIN_MASH : (CPU_MASH[G.diff] || 6.5);
+          P.cpuT -= dt;
+          if (P.cpuT <= 0) { P.cpuT = (1 / rate) * (0.7 + Math.random() * 0.6); mash(1); }
+        }
+        if (isHost()) { P.syncT -= dt; if (P.syncT <= 0) { P.syncT = 0.1; Net.send({ t: 'duel', cnt: P.cnt, left: P.duelT }); } }
+      }
+      const before = P.duelT;
+      P.duelT = Math.max(0, P.duelT - dt);
+      if (Math.ceil(P.duelT) !== Math.ceil(before) && P.duelT > 0) beep(Math.ceil(P.duelT) === 1 ? 880 : 660, 0.08, 'square', 0.05);
+      g.jump = Math.abs(Math.sin(g.t * 14)) * 1.5;   // he tugs at the ball
+      if (P.duelT <= 0 && !isGuest() && !P.res) { g.jump = 0; prankDecide(); }
+      break;
+    }
     case 'push': {
+      g.jump = 0;
       const k = Math.min(1, g.t / 0.9), e = k * k * (3 - 2 * k);
       const ox = P.b.x, oy = P.b.y;
       P.b.x = P.from.x + (P.to.x - P.from.x) * e; P.b.y = P.from.y + (P.to.y - P.from.y) * e;
@@ -794,8 +944,6 @@ function prankUpdate(dt, pad) {
       break;
     case 'out': if (walk(P.exitX, g.y, 95)) finishPrank(); break;
     case 'scared': {
-      const k = Math.min(1, g.t / 0.35);
-      P.b.x = P.backFrom.x + (P.from.x - P.backFrom.x) * k; P.b.y = P.backFrom.y + (P.from.y - P.backFrom.y) * k;
       g.jump = Math.sin(Math.min(1, g.t / 0.45) * Math.PI) * 6;
       if (g.t > 0.5) { g.jump = 0; g.st = 'flee'; g.t = 0; }
       break;
@@ -806,21 +954,44 @@ function prankUpdate(dt, pad) {
 function finishPrank() {
   const P = G.prank;
   if (!P) return;
-  if (P.shooed) { P.b.x = P.from.x; P.b.y = P.from.y; } else { P.b.x = P.to.x; P.b.y = P.to.y; }
+  if (P.res === 'flee' || !P.res) { P.b.x = P.from.x; P.b.y = P.from.y; } else { P.b.x = P.to.x; P.b.y = P.to.y; }
   const c = G.balls[0];
   c.vx = P.cv.x; c.vy = P.cv.y;
   G.prank = null;
   G.msgT = 0;
   G.phase = 'moving';
 }
-function drawPrankHud() {
+// countdown over the goblin + tug-of-war bar (world coordinates)
+function drawDuel(time) {
   const P = G.prank;
-  if (P.shooed || (P.g.st !== 'in' && P.g.st !== 'push')) return;
-  if ((performance.now() / 180 | 0) % 2) txt(t('shooHint'), W / 2, 213, '#ffd84a', 'center');
-  for (let k = 0; k < SHOO_HITS; k++) {
-    const cx = W / 2 - (SHOO_HITS - 1) * 4.5 + k * 9;
-    fillCircle(ctx, cx, 234, 3, '#5a5a66');
-    fillCircle(ctx, cx, 234, 2.2, k < P.hits ? '#5ae07a' : '#000');
+  if (!P || P.res || (P.g.st !== 'in' && P.g.st !== 'duel')) return;
+  const y0 = VIEW.wide ? 194 : 211;
+  ctx.fillStyle = 'rgba(0,0,10,0.85)';
+  ctx.fillRect(14, y0 - 2, 228, 27);
+  const names = duelNames();
+  let hint;
+  if (G.mode === '2p') hint = duelHint2p();
+  else hint = t('shooHint');
+  if ((time * 3 | 0) % 3) txt(hint, 128, y0, '#ffd84a', 'center');
+  // bar: the knot moves toward whoever is mashing harder
+  const v = Math.max(-1, Math.min(1, (P.cnt[0] - P.cnt[1]) / 12));
+  const bx = 70, bw = 116, by = y0 + 13;
+  txt(names[0].slice(0, 6), bx - 4, by - 1, shooterIdx() === 0 ? '#5ae07a' : '#ff6a5a', 'right');
+  txt(names[1].slice(0, 6), bx + bw + 4, by - 1, shooterIdx() === 1 ? '#5ae07a' : '#ff6a5a', 'left');
+  ctx.fillStyle = '#5a5a66'; ctx.fillRect(bx, by + 1, bw, 5);
+  const mid = bx + bw / 2, knot = Math.round(mid - v * (bw / 2 - 3));
+  ctx.fillStyle = v >= 0 ? (shooterIdx() === 0 ? '#5ae07a' : '#ff6a5a') : (shooterIdx() === 1 ? '#5ae07a' : '#ff6a5a');
+  ctx.fillRect(Math.min(mid, knot), by + 1, Math.abs(knot - mid), 5);
+  ctx.fillStyle = '#fff'; ctx.fillRect(mid, by - 1, 1, 9);
+  fillCircle(ctx, knot, by + 3, 3.5, '#ffd84a');
+  // countdown above the goblin
+  if (P.g.st === 'duel') {
+    const n = String(Math.max(1, Math.ceil(P.duelT)));
+    ctx.font = FONT16; ctx.textAlign = 'center';
+    const gx = Math.round(P.g.x), gy = Math.round(P.g.y) - 20;
+    ctx.fillStyle = '#000'; ctx.fillText(n, gx + 2, gy + 2);
+    ctx.fillStyle = P.duelT < 1.5 ? '#ff6a5a' : '#ffffff'; ctx.fillText(n, gx, gy);
+    ctx.font = FONT8;
   }
 }
 
@@ -882,22 +1053,69 @@ function endShot() {
   if (!left) {
     const total = G.balls.length - 1;
     if (!s.scratch && G.visit >= total) { p.lives++; showMsg(t('perfect'), 2.2); sfx('perfect'); }
-    else showMsg(t('stage', { n: G.stage + 1 }), 1.6);
     if (G.cards && G.players.length === 2) {
       const [a0, a1] = G.players.map(x => x.rack.length);
       if (a0 !== a1) cardFor = a0 < a1 ? 0 : 1;
       else if (G.players[0].lives !== G.players[1].lives) cardFor = G.players[0].lives < G.players[1].lives ? 0 : 1;
     }
-    loadStage(G.stage + 1);
-    for (const x of G.players) x.rack = [];
-    G.visit = 0; G.miss = 0;
-    G.angle = 0;
-    G.phase = 'wait'; G.timer = 1.2;
+    G.trans = { t: 0, next: G.stage + 1, cardFor, swapped: false };
+    G.phase = 'trans';
+    if (isHost()) Net.send({ t: 'trans', next: G.stage + 1 });
   }
   if (pass) { G.cur = 1 - G.cur; G.visit = 0; G.turnStart = true; p.st.run = 0; }
   G.ai = null;
-  if (cardFor >= 0) startCardPick(cardFor);
-  netSendState();
+  if (G.phase !== 'trans') netSendState();
+}
+
+// table cleared: short pause, fade to black, new table fades in with its title
+const TRANS = { show: 1.3, out: 0.6, title: 1.6, inn: 0.6 };
+function transUpdate(dt) {
+  const T = G.trans;
+  T.t += dt;
+  const swapAt = TRANS.show + TRANS.out;
+  if (!T.swapped && T.t >= swapAt) {
+    T.swapped = true;
+    G.stage = T.next;
+    if (isGuest()) { LV = prepLevel(buildLevel(levelSeed(T.next), T.next)); tableImg = buildTableImg(LV); G.balls = levelBalls(LV); G.levelCode = seedToCode(LV.seed, T.next); }
+    else loadStage(T.next);
+    for (const x of G.players) x.rack = [];
+    G.visit = 0; G.miss = 0; G.angle = 0; G.msgT = 0; G.parts = [];
+    sfx('stage');
+  }
+  if (T.t >= swapAt + TRANS.title) {
+    G.trans = null;
+    if (isGuest()) { G.phase = 'netwait'; tryApplyState(); return; }
+    G.phase = 'wait'; G.timer = 0.3;
+    if (T.cardFor >= 0) startCardPick(T.cardFor);
+    netSendState();
+  }
+}
+function drawTrans() {
+  const T = G.trans;
+  if (!T) return;
+  const swapAt = TRANS.show + TRANS.out;
+  let dark = 0;
+  if (T.t > TRANS.show && T.t < swapAt) dark = (T.t - TRANS.show) / TRANS.out;
+  else if (T.t >= swapAt) dark = Math.max(0, 1 - (T.t - swapAt) / TRANS.inn);
+  if (dark > 0) { ctx.fillStyle = 'rgba(2,0,12,' + dark.toFixed(3) + ')'; ctx.fillRect(-600, -600, 1600, 1600); }
+  if (T.t < TRANS.show) {                          // "table cleared" banner over the empty table
+    const k = Math.min(1, T.t / 0.25);
+    ctx.font = FONT16; ctx.textAlign = 'center';
+    ctx.fillStyle = '#000'; ctx.fillText(t('cleared'), LV.cx + 2, LV.cy - 8 + 2);
+    ctx.globalAlpha = k; ctx.fillStyle = '#5ae07a'; ctx.fillText(t('cleared'), LV.cx, LV.cy - 8); ctx.globalAlpha = 1;
+    ctx.font = FONT8;
+  } else if (T.t >= swapAt) {                      // new table title
+    const k = Math.min(1, (T.t - swapAt) / 0.3), y = Math.round(LV.cy - 14 - (1 - k) * 10);
+    ctx.globalAlpha = Math.min(1, k * 1.2);
+    const title = t('stage', { n: G.stage });
+    ctx.font = FONT16; ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(0,0,10,0.75)'; ctx.fillRect(LV.cx - 90, y - 8, 180, 42);
+    ctx.fillStyle = '#000'; ctx.fillText(title, LV.cx + 2, y + 2);
+    ctx.fillStyle = '#ffd84a'; ctx.fillText(title, LV.cx, y);
+    ctx.font = FONT8;
+    txt(t('codeLabel', { c: G.levelCode }), LV.cx, y + 22, '#8af4ff', 'center');
+    ctx.globalAlpha = 1;
+  }
 }
 
 function gameOver(winner) {
@@ -963,6 +1181,7 @@ function sfx(name, v) {
     case 'perfect': [523, 659, 784, 1046].forEach((f, i) => beep(f, 0.12, 'square', 0.05, 0, i * 0.09)); break;
     case 'over': [392, 330, 262].forEach((f, i) => beep(f, 0.2, 'square', 0.05, 0, i * 0.16)); break;
     case 'menu': beep(880, 0.04, 'square', 0.04); break;
+    case 'stage': [392, 523, 659, 784].forEach((f, i) => beep(f, 0.1, 'triangle', 0.07, 0, i * 0.08)); break;
     case 'neon': beep(60 + Math.random() * 20, 0.08, 'sawtooth', 0.03); break;
   }
 }
@@ -1249,7 +1468,7 @@ function drawHUD() {
     const thinking = p.cpu && G.phase === 'aim' && G.ai && G.ai.stage === 'plan';
     txt(thinking ? t('thinking', { p: p.name }) : t('toShoot', { p: p.name }), 252, 27, '#c8c0ff', 'right');
   }
-  if (G.msgT > 0 && G.msg) txt(G.msg, W / 2, 226, COL.gold, 'center');
+  if (G.msgT > 0 && G.msg && !duelOpen()) txt(G.msg, W / 2, 226, COL.gold, 'center');
   // active card effects of the player to shoot
   const fx = cur().fx;
   if (fx.length && G.phase !== 'over' && !G.prank) {
@@ -1291,15 +1510,8 @@ function banner(text, y, col) {
   txt(text, 128, y, col, 'center');
 }
 function drawWideBanners() {
-  if (G.prank && !G.prank.shooed && (G.prank.g.st === 'in' || G.prank.g.st === 'push')) {
-    const P = G.prank;
-    if ((performance.now() / 180 | 0) % 2) banner(t('shooHint'), 197, '#ffd84a');
-    for (let k = 0; k < SHOO_HITS; k++) {
-      const cx = 128 - (SHOO_HITS - 1) * 4.5 + k * 9;
-      fillCircle(ctx, cx, 213, 3, '#5a5a66');
-      fillCircle(ctx, cx, 213, 2.2, k < P.hits ? '#5ae07a' : '#000');
-    }
-  } else if (G.msgT > 0 && G.msg) banner(G.msg, 205, COL.gold);
+  if (G.prank && !G.prank.res && (G.prank.g.st === 'in' || G.prank.g.st === 'duel')) return;   // the duel bar is there
+  if (G.msgT > 0 && G.msg) banner(G.msg, 205, COL.gold);
 }
 
 function render() {
@@ -1337,12 +1549,13 @@ function render() {
     ctx.fill('evenodd');
   }
   drawCombo(time);
-  if (VIEW.wide) drawWideBanners();
+  drawTrans();
+  drawDuel(time);
+  if (VIEW.wide && !G.trans) drawWideBanners();
   ctx.restore();
   if (VIEW.wide) updateWideHud();
   else drawHUD();
   drawGoblin(G.gob);
-  if (G.prank && !VIEW.wide) drawPrankHud();
 }
 
 // ---------- wide-mode HTML side panels ----------
@@ -1455,11 +1668,12 @@ const Splash = {
 // =====================================================================
 //  INPUT
 // =====================================================================
-const keys = {};
+const keys = {}, KEYS = keys;
 const V = { left: false, right: false, up: false, down: false };
 let pendingShot = false, rotHold = 0, drag = null, padPrev = {};
-function requestShot() {
-  if (G && G.phase === 'prank' && !G.paused) { prankHit(); return; }
+function requestShot(clientX, kind) {
+  if (G && G.phase === 'prank' && !G.paused) { mashPointer(clientX == null ? 0 : clientX, kind); return; }
+  if (G && kind && kind !== 'pad' && !devAllows(G.cur, kind)) return;
   if (humanAim() && !G.balls[0].in) pendingShot = true;
 }
 
@@ -1471,11 +1685,21 @@ function toLocal(e) {
   return { x: (e.clientX - r.left) * cv.width / r.width - VIEW.ox, y: (e.clientY - r.top) * cv.height / r.height - VIEW.oy };
 }
 
+function blankPad() { return { l: 0, r: 0, u: 0, d: 0, a: 0, b: 0, start: 0, lb: 0, rb: 0, ax: 0, ay: 0, rx: 0, ry: 0 }; }
+function readPad(p) {
+  const bt = i => (p.buttons[i] && p.buttons[i].pressed) ? 1 : 0;
+  const s = { l: bt(14), r: bt(15), u: bt(12), d: bt(13), a: bt(0), b: bt(1), start: bt(9), lb: bt(4), rb: bt(5),
+    ax: p.axes[0] || 0, ay: p.axes[1] || 0, rx: p.axes[2] || 0, ry: p.axes[3] || 0 };
+  s.su = s.ay < -0.6 ? 1 : 0; s.sd = s.ay > 0.6 ? 1 : 0; s.sl = s.ax < -0.6 ? 1 : 0; s.sr = s.ax > 0.6 ? 1 : 0;
+  return s;
+}
 function pollPad() {
-  const st = { l: 0, r: 0, u: 0, d: 0, a: 0, b: 0, start: 0, lb: 0, rb: 0, ax: 0, ay: 0, rx: 0, ry: 0 };
+  const st = blankPad();
+  st.byIdx = {};                                   // each controller separately (local 2 players)
   const pads = navigator.getGamepads ? navigator.getGamepads() : [];
   for (const p of pads) {
     if (!p) continue;
+    st.byIdx[p.index] = readPad(p);
     const bt = i => (p.buttons[i] && p.buttons[i].pressed) ? 1 : 0;
     st.l |= bt(14); st.r |= bt(15); st.u |= bt(12); st.d |= bt(13);
     st.a |= bt(0); st.b |= bt(1); st.start |= bt(9); st.lb |= bt(4); st.rb |= bt(5);
@@ -1490,9 +1714,78 @@ function pollPad() {
   return st;
 }
 function edge(pad, k) { return pad[k] && !padPrev[k]; }
+// edge for one controller (index) — used when each player owns a controller
+function edgeIdx(pad, idx, k) { const a = pad.byIdx && pad.byIdx[idx], b = padPrev.byIdx && padPrev.byIdx[idx]; return !!(a && a[k] && !(b && b[k])); }
+
+// ---------- local 2 players: who owns which device ('kb', 'touch', 'pad:N') ----------
+function devOf(pi) { return G && G.dev ? G.dev[pi] : null; }
+function devAllows(pi, kind) {             // kind: 'kb' (keyboard + mouse), 'touch', 'pad:N'
+  const d = devOf(pi);
+  if (!d) return true;                     // not a bound game: every device works
+  if (d === kind) return true;
+  return (d === 'kb' && kind === 'mouse');
+}
+function playerPadState(pad) {             // the controller state the current player may use
+  const d = devOf(G.cur);
+  if (!d) return pad;
+  if (d.startsWith('pad:')) return (pad.byIdx && pad.byIdx[+d.slice(4)]) || blankPad();
+  return blankPad();
+}
+function playerPadEdge(pad, k) {
+  const d = devOf(G.cur);
+  if (!d) return edge(pad, k);
+  return d.startsWith('pad:') ? edgeIdx(pad, +d.slice(4), k) : false;
+}
+
+let join2p = null;
+function startJoin2p() {
+  join2p = { dev: [null, null] };
+  showScreen('scrJoin2p');
+  if (document.activeElement) document.activeElement.blur();
+  drawJoin2p();
+}
+function join2pActive() { return currentScreen() === 'scrJoin2p'; }
+function devName(d) {
+  if (!d) return t('pressAny');
+  if (d.startsWith('pad:')) return t('devPad', { n: +d.slice(4) + 1 });
+  return d === 'kb' ? t('devKb') : t('devTouch');
+}
+function drawJoin2p() {
+  [0, 1].forEach(i => {
+    const el = $('join2p' + i), d = join2p.dev[i];
+    el.querySelector('.who').textContent = 'P' + (i + 1);
+    el.querySelector('.dev').textContent = devName(d);
+    el.classList.toggle('ok', !!d);
+    el.classList.toggle('next', !d && (i === 0 || join2p.dev[0]));
+  });
+  $('join2pGo').disabled = !(join2p.dev[0] && join2p.dev[1]);
+  if (join2p.dev[0] && join2p.dev[1]) $('join2pGo').focus();
+}
+function join2pPress(kind) {
+  if (!join2p) return;
+  const d = join2p.dev;
+  // a controller can belong to one player only; keyboard / touch screen can be shared
+  if (kind.startsWith('pad:') && d.includes(kind)) {
+    if (d[0] && d[1]) onAction('join2p-go');
+    return;
+  }
+  const slot = !d[0] ? 0 : !d[1] ? 1 : -1;
+  if (slot < 0) return;
+  d[slot] = kind;
+  sfx('perfect');
+  drawJoin2p();
+}
 
 function handlePadMenus(pad) {
   if (Splash.on) { if (edge(pad, 'a') || edge(pad, 'start')) Splash.skip(); return; }
+  if (overlayOpen() && join2pActive()) {
+    for (const idx in (pad.byIdx || {})) {
+      if (edgeIdx(pad, +idx, 'a')) join2pPress('pad:' + idx);
+      if (edgeIdx(pad, +idx, 'start') && join2p.dev[0] && join2p.dev[1]) onAction('join2p-go');
+      if (edgeIdx(pad, +idx, 'b')) showScreen('scrMain');
+    }
+    return;
+  }
   if (overlayOpen()) {
     if (nameActive()) {
       if (edge(pad, 'u') || edge(pad, 'su')) nameKey('ArrowUp');
@@ -1518,7 +1811,9 @@ function handlePadMenus(pad) {
   } else if (G && edge(pad, 'start')) pause();
 }
 
-function humanUpdate(dt, pad) {
+function humanUpdate(dt, padAll) {
+  const pad = playerPadState(padAll);
+  const kb = devAllows(G.cur, 'kb'), keys = kb ? KEYS : {};
   let rot = 0;
   if (keys.ArrowLeft || keys.KeyA || pad.l || V.left) rot -= 1;
   if (keys.ArrowRight || keys.KeyD || pad.r || V.right) rot += 1;
@@ -1534,7 +1829,7 @@ function humanUpdate(dt, pad) {
   if (rot) { rotHold += dt; G.angle += rot * Math.min(2.2, 0.35 + rotHold * 1.6) * slow * dt; } else rotHold = 0;
   if (Math.abs(pad.rx) > 0.2) G.angle += pad.rx * 0.3 * dt;
   if (Math.hypot(pad.ax, pad.ay) > 0.6) G.angle = Math.atan2(pad.ay, pad.ax);
-  if (edge(pad, 'a')) requestShot();
+  if (playerPadEdge(padAll, 'a')) requestShot(null, 'pad');
   sweepPower(dt);
   if (G.net) {
     G.net.aimT += dt;
@@ -1805,7 +2100,7 @@ function netShotStart() {
   Net.send({
     t: 'shotStart', balls: G.balls.map(packBall), lvT: LV.t,
     vx: P ? P.cv.x : c.vx, vy: P ? P.cv.y : c.vy,
-    prank: P ? { num: P.b.num, from: P.from, to: P.to, stand: P.stand, exitX: P.exitX, gx: P.g.x, gy: P.g.y, face: P.g.face } : null
+    prank: P ? { num: P.b.num, from: P.from, dir: P.dir, stand: P.stand, exitX: P.exitX, gx: P.g.x, gy: P.g.y, face: P.g.face } : null
   });
 }
 const IDLE = { netwait: 1, aim: 1, wait: 1, cards: 1, over: 1 };
@@ -1819,24 +2114,23 @@ function netOnMsg(m) {
     case 'aim': if (G && G.net && !localTurn()) G.remoteAim = { a: m.a, p: m.p, d: m.d || STAR_DIST }; break;
     case 'shotReq': if (isHost() && G.phase === 'aim' && G.cur !== G.net.me) shoot(m.a, m.p, true); break;
     case 'shotStart': if (isGuest()) guestShotStart(m); break;
-    case 'prankHit': if (isHost()) prankHit(true); break;
-    case 'prankSync':
-      if (isGuest() && G.prank) {
-        const P = G.prank;
-        if (m.hits > P.hits) { P.hits = m.hits; beep(600 + P.hits * 120, 0.05, 'square', 0.05); }
-        if (m.shooed && !P.shooed) prankScare();
-      }
-      break;
+    case 'mash': if (isHost()) mash(1 - G.net.me, true); break;
+    case 'duel': if (isGuest() && G.prank) { G.prank.cnt = m.cnt; if (G.prank.g.st === 'duel') G.prank.duelT = m.left; } break;
+    case 'duelEnd': if (isGuest() && G.prank && !G.prank.res) { G.prank.cnt = m.cnt; G.prank.g.jump = 0; prankResult(m.res, m.to); } break;
     case 'cards':
       if (isGuest()) { G.cardFor = m.pi; G.cardHand = m.hand.map(id => CARD[id]); G.phase = 'cards'; showCardScreen(); }
       break;
     case 'pick': if (isHost() && G.phase === 'cards' && G.cardFor !== G.net.me) pickCard(m.i); break;
     case 'goblin': if (isGuest()) startGoblin(m.from, m.to); break;
+    case 'trans':
+      if (isGuest()) { if (G.phase === 'moving' || G.phase === 'prank') G.net.pendingTrans = m.next; else startGuestTrans(m.next); }
+      break;
     case 'quake': if (isGuest()) { G.shake = 0.5; showMsg(t('quakeMsg'), 1.4); sfx('scratch'); vib(120); } break;
     case 'again': if (isHost() && G.phase === 'over') startOnlineAsHost(); break;
     case 'bye': netEnd(); break;
   }
 }
+function startGuestTrans(next) { G.trans = { t: 0, next, cardFor: -1, swapped: false }; G.phase = 'trans'; }
 function guestShotStart(m) {
   G.net.pending = null;
   G.balls = unpackBalls(m.balls);
@@ -1850,8 +2144,8 @@ function guestShotStart(m) {
   if (m.prank) {
     const b = G.balls.find(x => x.num === m.prank.num);
     G.prank = {
-      b, cv: { x: m.vx, y: m.vy }, from: m.prank.from, to: m.prank.to, stand: m.prank.stand, exitX: m.prank.exitX,
-      hits: 0, shooed: false, cpuShoo: false, cpuT: 0,
+      b, cv: { x: m.vx, y: m.vy }, from: m.prank.from, to: m.prank.from, dir: m.prank.dir, stand: m.prank.stand, exitX: m.prank.exitX,
+      cnt: [0, 0], duelT: DUEL_TIME, res: null, syncT: 0, cpuT: 0,
       g: { st: 'in', t: 0, x: m.prank.gx, y: m.prank.gy, face: m.prank.face, wink: false }
     };
     c.vx = 0; c.vy = 0;
@@ -1923,7 +2217,9 @@ function onAction(act) {
     case 'd-easy': newGame('cpu', { diff: 'easy' }); break;
     case 'd-medium': newGame('cpu', { diff: 'medium' }); break;
     case 'd-hard': newGame('cpu', { diff: 'hard' }); break;
-    case 'two-p': newGame('2p'); break;
+    case 'two-p': startJoin2p(); break;
+    case 'join2p-go': if (join2p && join2p.dev[0] && join2p.dev[1]) newGame('2p', { dev: join2p.dev.slice() }); break;
+    case 'join2p-reset': startJoin2p(); break;
     case 'solo': newGame('solo'); break;
     case 'online': showScreen('scrOnline'); break;
     case 'host': onlineHost(); break;
@@ -1945,7 +2241,7 @@ function onAction(act) {
     case 'resume': resume(); break;
     case 'again':
       if (G && G.net) { if (isHost()) startOnlineAsHost(); else { Net.send({ t: 'again' }); $('overNote').textContent = t('waitHost'); } }
-      else newGame(G.mode, { diff: G.diff });
+      else newGame(G.mode, { diff: G.diff, dev: G.dev });
       break;
     case 'name-ok': nameConfirm(); break;
     case 'menu':
@@ -2059,18 +2355,25 @@ function update(dt, pad) {
           G.phase = 'netwait';
           tryApplyState();
         } else endShot();
+        if (isGuest() && G.net.pendingTrans) { startGuestTrans(G.net.pendingTrans); G.net.pendingTrans = null; }
       }
       break;
     }
     case 'prank':
-      prankUpdate(dt, pad);
+      prankUpdate(dt);
       break;
     case 'goblin':
       goblinUpdate(dt);
       break;
+    case 'trans':
+      transUpdate(dt);
+      break;
+    case 'cpucards':
+      cpuCardsUpdate(dt);
+      break;
     case 'wait':
       G.timer -= dt;
-      if (G.timer <= 0) { G.phase = 'aim'; showMsg(t('stage', { n: G.stage }), 1.4); netSendState(); }
+      if (G.timer <= 0) { G.phase = 'aim'; netSendState(); }
       break;
     case 'over':
       G.timer -= dt;
@@ -2123,6 +2426,14 @@ function boot() {
     if (Splash.on) { Splash.skip(); e.preventDefault(); return; }
     if (overlayOpen()) {
       if (nameActive()) { nameKey(e.code, e.key); e.preventDefault(); return; }
+      if (join2pActive()) {
+        if (e.code === 'Escape') showScreen('scrMain');
+        else if ((e.code === 'Space' || e.code === 'Enter' || e.code === 'NumpadEnter') && !e.repeat) {
+          if (join2p.dev[0] && join2p.dev[1] && document.activeElement && document.activeElement.id === 'join2pGo' && e.code !== 'Space') onAction('join2p-go');
+          else join2pPress('kb');
+        }
+        e.preventDefault(); return;
+      }
       const el = document.activeElement, tag = el && el.tagName, range = el && el.type === 'range';
       if (tag === 'INPUT' && !range) {
         if (e.code === 'Enter' || e.code === 'NumpadEnter') { onAction(currentScreen() === 'scrJoin' ? 'join-go' : 'code-ok'); e.preventDefault(); }
@@ -2138,7 +2449,7 @@ function boot() {
     }
     if (e.code === 'Escape' || e.code === 'KeyP') { pause(); return; }
     keys[e.code] = true;
-    if (!e.repeat && (e.code === 'Space' || e.code === 'Enter' || e.code === 'NumpadEnter')) requestShot();
+    if (!e.repeat && (e.code === 'Space' || e.code === 'Enter' || e.code === 'NumpadEnter')) { if (G && G.phase === 'prank' && !G.paused) mashKey(e.code); else requestShot(null, 'kb'); }
     if (gameKeys.includes(e.code)) e.preventDefault();
   });
   addEventListener('keyup', e => { keys[e.code] = false; });
@@ -2150,9 +2461,10 @@ function boot() {
     audioInit();
     if (e.pointerType === 'touch') setTouchMode();
     if (Splash.on) { Splash.skip(); return; }
-    if (G && G.phase === 'prank' && !G.paused) { prankHit(); return; }
+    if (G && G.phase === 'prank' && !G.paused) { mashPointer(e.clientX, e.pointerType === 'touch' ? 'touch' : 'mouse'); return; }
     if (!humanAim()) return;
-    if (e.pointerType === 'mouse') { if (e.button === 0) { aimAt(e); requestShot(); } return; }
+    if (!devAllows(G.cur, e.pointerType === 'touch' ? 'touch' : 'mouse')) return;
+    if (e.pointerType === 'mouse') { if (e.button === 0) { aimAt(e); requestShot(null, 'mouse'); } return; }
     // touch: the star moves with the finger but slower, from wherever it is
     const p = toLocal(e), c = G.balls[0];
     drag = { id: e.pointerId, sx: p.x, sy: p.y, stx: c.x + Math.cos(G.angle) * G.starD, sty: c.y + Math.sin(G.angle) * G.starD };
@@ -2160,6 +2472,7 @@ function boot() {
   });
   cv.addEventListener('pointermove', e => {
     if (!humanAim()) return;
+    if (!devAllows(G.cur, e.pointerType === 'touch' ? 'touch' : 'mouse')) return;
     if (e.pointerType === 'mouse') { aimAt(e); return; }
     if (drag && e.pointerId === drag.id) {
       const p = toLocal(e), c = G.balls[0], gain = 0.6;
@@ -2180,8 +2493,9 @@ function boot() {
   cv.addEventListener('contextmenu', e => e.preventDefault());
 
   // on-screen touch buttons
-  $('tShot').addEventListener('pointerdown', e => { e.preventDefault(); audioInit(); requestShot(); });
+  $('tShot').addEventListener('pointerdown', e => { e.preventDefault(); audioInit(); requestShot(e.clientX, 'touch'); });
   $('tPause').addEventListener('click', pause);
+  $('join2pArea').addEventListener('pointerdown', e => { audioInit(); join2pPress(e.pointerType === 'touch' ? 'touch' : 'kb'); });
   addEventListener('pointerdown', e => { if (e.pointerType === 'touch') setTouchMode(); if (Splash.on) Splash.skip(); }, true);
 
   $('overlay').classList.add('hidden');
