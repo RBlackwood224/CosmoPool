@@ -1216,6 +1216,12 @@ const Music = {
     this.mode = m; this.gap = 0;
     if (this.el) { this.fadeDir = -1; this.switching = true; } else this.start();
   },
+  // browsers only allow sound after a click / key press: retry the blocked track then
+  unlock() {
+    if (musicVol <= 0) return;
+    if (this.el && this.el.paused && this.fadeDir >= 0) { const pr = this.el.play(); if (pr && pr.catch) pr.catch(() => {}); }
+    else if (!this.el && this.mode && this.gap <= 0) this.start();
+  },
   volumeChanged() {
     if (musicVol <= 0 && this.el) { this.el.pause(); this.el = null; this.switching = false; }
     else if (musicVol > 0 && !this.el) this.start();
@@ -1422,8 +1428,8 @@ function drawAim() {
 }
 
 function drawHUD() {
-  ctx.fillStyle = COL.hud; ctx.fillRect(0, 0, W, 39);
-  ctx.fillStyle = COL.gold; ctx.fillRect(0, 39, W, 1);
+  ctx.fillStyle = COL.hud; ctx.fillRect(-VIEW.ox, 0, VIEW.w, 39);
+  ctx.fillStyle = COL.gold; ctx.fillRect(-VIEW.ox, 39, VIEW.w, 1);
   const blink = (performance.now() / 300 | 0) % 2;
   G.players.forEach((p, i) => {
     const y = 4 + i * 11;
@@ -1553,9 +1559,8 @@ function render() {
   drawDuel(time);
   if (VIEW.wide && !G.trans) drawWideBanners();
   ctx.restore();
-  if (VIEW.wide) updateWideHud();
-  else drawHUD();
-  drawGoblin(G.gob);
+  if (VIEW.wide) { updateWideHud(); drawGoblin(G.gob); }
+  else { ctx.save(); ctx.translate(VIEW.ox, VIEW.oy); drawHUD(); drawGoblin(G.gob); ctx.restore(); }
 }
 
 // ---------- wide-mode HTML side panels ----------
@@ -1620,6 +1625,7 @@ const Splash = {
     const before = this.t;
     this.t += dt;
     if (this.t > 0.6 && ((this.t * 13) | 0) !== ((before * 13) | 0) && this.t < 2.2) sfx('neon');
+    if (!this.music && this.t > 1.6) { this.music = true; Music.setMode('menu'); }   // menu music 1 s after the sign lights up
     if (this.t > 4.2) this.finish();
   },
   skip() { if (this.on && this.t > 0.3) this.finish(); },
@@ -2270,12 +2276,14 @@ function resize() {
     cv.style.width = iw + 'px'; cv.style.height = ih + 'px';
     document.documentElement.style.setProperty('--panel', Math.floor(panel) + 'px');
   } else {
-    VIEW.w = W; VIEW.h = H; VIEW.ox = 0; VIEW.oy = 0;
-    cv.width = W; cv.height = H;
+    // the 256x240 game keeps its size and shape in the middle; the galaxy fills the rest of the screen
     const s = Math.min(iw / W, ih / H);
     const sc = s >= 2 ? Math.floor(s) : s;
-    cv.style.width = Math.floor(W * sc) + 'px';
-    cv.style.height = Math.floor(H * sc) + 'px';
+    VIEW.w = Math.ceil(iw / sc); VIEW.h = Math.ceil(ih / sc);
+    VIEW.ox = Math.floor((VIEW.w - W) / 2); VIEW.oy = Math.floor((VIEW.h - H) / 2);
+    cv.width = VIEW.w; cv.height = VIEW.h;
+    cv.style.width = Math.round(VIEW.w * sc) + 'px';
+    cv.style.height = Math.round(VIEW.h * sc) + 'px';
   }
   document.body.classList.toggle('wide', VIEW.wide);
   ctx.imageSmoothingEnabled = false;
@@ -2296,6 +2304,7 @@ function goFullscreen() {
 }
 
 function afterSplash() {
+  Music.setMode('menu');
   showScreen('scrLang');
   const pref = document.querySelector('[data-act="lang-' + lang + '"]');
   if (pref) pref.focus();
@@ -2496,7 +2505,8 @@ function boot() {
   $('tShot').addEventListener('pointerdown', e => { e.preventDefault(); audioInit(); requestShot(e.clientX, 'touch'); });
   $('tPause').addEventListener('click', pause);
   $('join2pArea').addEventListener('pointerdown', e => { audioInit(); join2pPress(e.pointerType === 'touch' ? 'touch' : 'kb'); });
-  addEventListener('pointerdown', e => { if (e.pointerType === 'touch') setTouchMode(); if (Splash.on) Splash.skip(); }, true);
+  addEventListener('pointerdown', e => { if (e.pointerType === 'touch') setTouchMode(); if (Splash.on) Splash.skip(); audioInit(); Music.unlock(); }, true);
+  addEventListener('keydown', () => { audioInit(); Music.unlock(); }, true);
 
   $('overlay').classList.add('hidden');
   Splash.start();
