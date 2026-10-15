@@ -14,14 +14,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261012b">
+<link rel="stylesheet" href="style.css?v=20261014">
 </head>
 <body>
 <div id="wrap"><canvas id="screen" width="256" height="240"></canvas></div>
 <div id="rotate" data-i18n="rotate"></div>
 
-<div id="hudL" class="hud hidden"><div id="hudLp"></div><div class="pow"><span data-i18n="power"></span><div id="powCol"></div></div></div>
-<div id="hudR" class="hud hidden"><div id="hudRp"></div></div>
+<div id="hudL" class="hud hidden"><div id="hudLp"></div></div>
+<div id="hudR" class="hud hidden"><div class="pow"><span data-i18n="power"></span><div id="powCol"></div></div></div>
+<div id="pickReveal" class="reveal hidden"><div class="who"></div><div class="rcard"><span class="kind"></span><span class="name"></span><span class="desc"></span></div><div class="to"></div></div>
 
 <div id="touch" class="hidden">
   <button id="tShot" data-i18n="shot">SHOT</button>
@@ -158,8 +159,8 @@
   </div>
 </div>
 
-<script src="level.js?v=20261012b"></script>
-<script src="net.js?v=20261012b"></script>
-<script src="game.js?v=20261012b"></script>
+<script src="level.js?v=20261014"></script>
+<script src="net.js?v=20261014"></script>
+<script src="game.js?v=20261014"></script>
 </body>
 </html>

@@ -30,7 +30,8 @@ const POWER_SPEED = 1.35;   // power meter sweeps per second (0 -> 1)
 const POWER_MIN = 0.08;
 const STAR_DIST = 20;       // default aiming star distance from the cue ball
 const STAR_MIN = 12, STAR_MAX = 70;   // the star can be pushed out / pulled in
-const SOLO_MISSES = 3;      // practice mode: this many misses in a row cost a life
+// chances: shots in a row without potting before a life is lost (more on the harder tables)
+function maxChances(stage) { return stage >= 11 ? 5 : stage >= 6 ? 4 : 3; }
 
 // ---------- Language ----------
 const LANG = {
@@ -39,8 +40,8 @@ const LANG = {
     toplist: 'TOP 10', levelCode: 'LEVEL CODE', settings: 'SETTINGS', moreGames: 'MORE GAMES',
     language: 'LANGUAGE', difficulty: 'DIFFICULTY', easy: 'EASY', medium: 'MEDIUM', hard: 'HARD',
     back: 'BACK', paused: 'PAUSED', resume: 'RESUME', mainMenu: 'MAIN MENU', again: 'PLAY AGAIN',
-    shot: 'SHOT', cpu: 'CPU', stage: 'STAGE {n}', stageHud: 'STAGE', hiHud: 'HI', power: 'POWER', missHud: 'MISS',
-    scratch: 'SCRATCH! -1 LIFE', perfect: 'FULL RUN! +1 LIFE', toShoot: '{p} TO SHOOT', missLife: '3 MISSES! -1 LIFE',
+    shot: 'SHOT', cpu: 'CPU', stage: 'STAGE {n}', stageHud: 'STAGE', hiHud: 'HI', power: 'POWER', missHud: 'CHANCE',
+    scratch: 'SCRATCH! -1 LIFE', perfect: 'FULL RUN! +1 LIFE', toShoot: '{p} TO SHOOT', missLife: 'OUT OF CHANCES! -1 LIFE', winPts: 'MORE POINTS WINS', revealPick: '{p} PICKED:', revealTo: 'HITS {p}', revealSelf: 'FOR {p}',
     thinking: '{p} THINKING...', wins: '{p} WINS!', gameOver: 'GAME OVER', newHi: 'NEW HIGH SCORE!', hiscore: 'HIGH SCORE {n}',
     helpLine: 'AIM LINE: {v}', on: 'ON', off: 'OFF', cardsOpt: 'CARDS: {v}', musicVol: 'MUSIC', sfxVol: 'SOUND FX',
     cardFor: '{p} PICKS A CARD', bless: 'BLESSING', curse: 'CURSE', shotsN: '{n} SHOTS', turnsN: '{n} TURNS', instant: 'INSTANT',
@@ -62,8 +63,8 @@ const LANG = {
     toplist: 'TOPLISTA', levelCode: 'PÁLYAKÓD', settings: 'BEÁLLÍTÁSOK', moreGames: 'TÖBB JÁTÉK',
     language: 'NYELV', difficulty: 'NEHÉZSÉG', easy: 'KÖNNYŰ', medium: 'KÖZEPES', hard: 'NEHÉZ',
     back: 'VISSZA', paused: 'SZÜNET', resume: 'FOLYTATÁS', mainMenu: 'FŐMENÜ', again: 'ÚJ JÁTÉK',
-    shot: 'LÖVÉS', cpu: 'GÉP', stage: '{n}. PÁLYA', stageHud: 'PÁLYA', hiHud: 'REK', power: 'ERŐ', missHud: 'HIBA',
-    scratch: 'FEHÉR BEESETT! -1 ÉLET', perfect: 'TISZTA SOR! +1 ÉLET', toShoot: '{p} JÖN', missLife: '3 HIBA! -1 ÉLET',
+    shot: 'LÖVÉS', cpu: 'GÉP', stage: '{n}. PÁLYA', stageHud: 'PÁLYA', hiHud: 'REK', power: 'ERŐ', missHud: 'ESÉLY',
+    scratch: 'FEHÉR BEESETT! -1 ÉLET', perfect: 'TISZTA SOR! +1 ÉLET', toShoot: '{p} JÖN', missLife: 'ELFOGYTAK AZ ESÉLYEK! -1 ÉLET', winPts: 'TÖBB PONTTAL NYERT', revealPick: '{p} VÁLASZTOTTA:', revealTo: '{p} KAPJA', revealSelf: '{p} MAGÁNAK',
     thinking: '{p} GONDOLKODIK...', wins: '{p} NYERT!', gameOver: 'JÁTÉK VÉGE', newHi: 'ÚJ REKORD!', hiscore: 'REKORD: {n}',
     helpLine: 'SEGÍTŐ VONAL: {v}', on: 'BE', off: 'KI', cardsOpt: 'KÁRTYÁK: {v}', musicVol: 'ZENE', sfxVol: 'EFFEKTEK',
     cardFor: '{p} KÁRTYÁT VÁLASZT', bless: 'ÁLDÁS', curse: 'ÁTOK', shotsN: '{n} LÖVÉS', turnsN: '{n} KÖR', instant: 'AZONNALI',
@@ -134,11 +135,11 @@ function step(bs, dt, ev) {
     if (phys.wind) { b.vx += phys.wind.x * dt; b.vy += phys.wind.y * dt; }
     if (phys.hole) {
       const hx = lv.cx - b.x, hy = lv.cy - b.y, hd = Math.hypot(hx, hy);
-      if (hd > 2 && hd < 90) { const a = 45 * (1 - hd / 90); b.vx += hx / hd * a * dt; b.vy += hy / hd * a * dt; }
+      if (hd > 2 && hd < 90) { const a = 65 * (1 - hd / 90); b.vx += hx / hd * a * dt; b.vy += hy / hd * a * dt; }
     }
     if (phys.magnet) for (const p of lv.pockets) {
       const mx = p.x - b.x, my = p.y - b.y, md = Math.hypot(mx, my);
-      if (md < 22 && md > 0.5) { b.vx += mx / md * 110 * dt; b.vy += my / md * 110 * dt; }
+      if (md < 26 && md > 0.5) { b.vx += mx / md * 160 * dt; b.vy += my / md * 160 * dt; }
     }
     if (phys.curve && b.num === 0) {
       const sp = Math.hypot(b.vx, b.vy) || 1;
@@ -372,41 +373,43 @@ function evalCand(ai, c) {
 // =====================================================================
 // n = shots it lasts (q: turns for quake, 0 = instant), w = draw weight
 const CARDS = [
-  // curses
-  { id: 'drunk',  k: 'curse', n: 3, w: 3, hu: ['RÉSZEG CÉLZÁS', 'A CSILLAG IMBOLYOG', 'RÉSZEG'], en: ['DRUNK AIM', 'THE STAR WOBBLES', 'DRUNK'] },
-  { id: 'half',   k: 'curse', n: 2, w: 3, hu: ['GYENGE LÖKÉS', '-30% ERŐ', 'GYENGE'], en: ['WEAK SHOT', '-30% POWER', 'WEAK'] },
-  { id: 'fast',   k: 'curse', n: 3, w: 3, hu: ['TURBÓ MÉRŐ', 'GYORSABB ERŐMÉRŐ', 'TURBÓ'], en: ['TURBO METER', 'FASTER POWER METER', 'TURBO'] },
-  { id: 'blind',  k: 'curse', n: 2, w: 3, hu: ['VAK CSILLAG', 'A CSILLAG KI-BE VILLOG', 'VAK'], en: ['BLIND STAR', 'THE STAR KEEPS VANISHING', 'BLIND'] },
-  { id: 'rev',    k: 'curse', n: 2, w: 3, hu: ['FORDÍTOTT KÉZ', 'BALRA-JOBBRA FELCSERÉLVE', 'FORDÍTOTT'], en: ['MIRROR HANDS', 'LEFT AND RIGHT SWAPPED', 'MIRROR'] },
-  { id: 'ice',    k: 'curse', n: 3, w: 3, hu: ['JÉGASZTAL', 'A GOLYÓK ALIG LASSULNAK', 'JÉG'], en: ['ICE TABLE', 'BALLS BARELY SLOW DOWN', 'ICE'] },
-  { id: 'glue',   k: 'curse', n: 3, w: 3, hu: ['RAGACSOS POSZTÓ', 'A GOLYÓK HAMAR MEGÁLLNAK', 'RAGACS'], en: ['STICKY FELT', 'BALLS STOP QUICKLY', 'STICKY'] },
-  { id: 'tight',  k: 'curse', n: 3, w: 3, hu: ['SZŰK ZSEBEK', 'KISEBBEK A LYUKAK', 'SZŰK'], en: ['TIGHT POCKETS', 'SMALLER POCKETS', 'TIGHT'] },
-  { id: 'shaky',  k: 'curse', n: 3, w: 3, hu: ['REMEGŐ KÉZ', 'AZ ERŐ VÉLETLENÜL ELCSÚSZIK', 'REMEGÉS'], en: ['SHAKY HANDS', 'POWER SLIPS RANDOMLY', 'SHAKY'] },
-  { id: 'one',    k: 'curse', n: 1, w: 2, hu: ['EGY LÖVÉS', 'TALÁLAT UTÁN SEM LŐHET ÚJRA', 'EGY LÖVÉS'], en: ['ONE SHOT', 'NO EXTRA SHOT EVEN AFTER POTTING', 'ONE SHOT'] },
-  { id: 'dark',   k: 'curse', n: 2, w: 3, hu: ['SÖTÉTSÉG', 'CSAK A FEHÉR KÖRÜL LÁT', 'SÖTÉT'], en: ['DARKNESS', 'ONLY SEES AROUND THE CUE BALL', 'DARK'] },
+  // curses (for the opponent)
+  { id: 'drunk',  k: 'curse', n: 3, w: 3, hu: ['RÉSZEG CÉLZÁS', 'A CSILLAG ERŐSEN IMBOLYOG', 'RÉSZEG'], en: ['DRUNK AIM', 'THE STAR WOBBLES A LOT', 'DRUNK'] },
+  { id: 'half',   k: 'curse', n: 3, w: 3, hu: ['GYENGE LÖKÉS', '-40% ERŐ', 'GYENGE'], en: ['WEAK SHOT', '-40% POWER', 'WEAK'] },
+  { id: 'fast',   k: 'curse', n: 3, w: 3, hu: ['TURBÓ MÉRŐ', 'KÉTSZER OLYAN GYORS ERŐMÉRŐ', 'TURBÓ'], en: ['TURBO METER', 'POWER METER TWICE AS FAST', 'TURBO'] },
+  { id: 'blind',  k: 'curse', n: 3, w: 3, hu: ['VAK CSILLAG', 'A CSILLAG FÉLIDŐBEN ELTŰNIK', 'VAK'], en: ['BLIND STAR', 'THE STAR IS GONE HALF THE TIME', 'BLIND'] },
+  { id: 'rev',    k: 'curse', n: 3, w: 3, hu: ['FORDÍTOTT KÉZ', 'BALRA-JOBBRA FELCSERÉLVE', 'FORDÍTOTT'], en: ['MIRROR HANDS', 'LEFT AND RIGHT SWAPPED', 'MIRROR'] },
+  { id: 'ice',    k: 'curse', n: 3, w: 3, hu: ['JÉGASZTAL', 'A GOLYÓK ALIG ÁLLNAK MEG', 'JÉG'], en: ['ICE TABLE', 'BALLS HARDLY STOP', 'ICE'] },
+  { id: 'glue',   k: 'curse', n: 3, w: 3, hu: ['RAGACSOS POSZTÓ', 'A GOLYÓK GYORSAN MEGÁLLNAK', 'RAGACS'], en: ['STICKY FELT', 'BALLS STOP QUICKLY', 'STICKY'] },
+  { id: 'tight',  k: 'curse', n: 3, w: 3, hu: ['SZŰK ZSEBEK', 'NEGYEDÉVEL KISEBB LYUKAK', 'SZŰK'], en: ['TIGHT POCKETS', 'POCKETS A QUARTER SMALLER', 'TIGHT'] },
+  { id: 'shaky',  k: 'curse', n: 3, w: 3, hu: ['REMEGŐ KÉZ', 'AZ ERŐ NAGYOT CSÚSZHAT', 'REMEGÉS'], en: ['SHAKY HANDS', 'POWER SLIPS A LOT', 'SHAKY'] },
+  { id: 'one',    k: 'curse', n: 2, w: 2, hu: ['EGY LÖVÉS', 'TALÁLAT UTÁN SEM LŐHET ÚJRA', 'EGY LÖVÉS'], en: ['ONE SHOT', 'NO EXTRA SHOT EVEN AFTER POTTING', 'ONE SHOT'] },
+  { id: 'dark',   k: 'curse', n: 3, w: 3, hu: ['SÖTÉTSÉG', 'CSAK A FEHÉR KÖRÜL LÁT', 'SÖTÉT'], en: ['DARKNESS', 'ONLY SEES AROUND THE CUE BALL', 'DARK'] },
   { id: 'dead',   k: 'curse', n: 3, w: 3, hu: ['HALOTT PALÁNK', 'A PALÁNK ALIG PATTAN', 'PALÁNK'], en: ['DEAD CUSHIONS', 'CUSHIONS BARELY BOUNCE', 'DEAD RAIL'] },
-  { id: 'curve',  k: 'curse', n: 2, w: 3, hu: ['GÖRBE GOLYÓ', 'A FEHÉR ÍVBEN MEGY', 'GÖRBE'], en: ['CURVE BALL', 'THE CUE BALL CURVES', 'CURVE'] },
-  { id: 'halfpt', k: 'curse', n: 2, w: 2, hu: ['FÉL PONT', 'GOLYÓNKÉNT CSAK 50 PONT', 'FÉL PONT'], en: ['HALF POINTS', 'ONLY 50 POINTS PER BALL', 'HALF PTS'] },
-  { id: 'quake',  k: 'curse', q: 1, w: 2, hu: ['FÖLDRENGÉS', 'KÖRE ELEJÉN MEGRÁZKÓDIK AZ ASZTAL', 'RENGÉS'], en: ['EARTHQUAKE', 'THE TABLE SHAKES AT TURN START', 'QUAKE'] },
-  { id: 'wind',   k: 'curse', n: 3, w: 3, hu: ['KOZMIKUS SZÉL', 'ELFÚJJA A GURULÓ GOLYÓKAT', 'SZÉL'], en: ['COSMIC WIND', 'BLOWS ROLLING BALLS ASIDE', 'WIND'] },
-  { id: 'hole',   k: 'curse', n: 2, w: 3, hu: ['FEKETE LYUK', 'AZ ASZTAL KÖZEPE BESZÍVJA A GOLYÓKAT', 'FEKETE LYUK'], en: ['BLACK HOLE', 'THE CENTRE PULLS THE BALLS IN', 'BLACK HOLE'] },
-  { id: 'goblin', k: 'curse', n: 0, w: 2, hu: ['PONTLOPÓ MANÓ', 'ELLOP 100 PONTOT ÉS NEKED HOZZA', ''], en: ['POINT GOBLIN', 'STEALS 100 POINTS AND BRINGS THEM TO YOU', ''] },
-  // blessings
-  { id: 'magnet', k: 'bless', n: 2, w: 3, hu: ['MÁGNESES ZSEB', 'A ZSEBEK KICSIT MAGUKHOZ HÚZNAK', 'MÁGNES'], en: ['MAGNET POCKETS', 'POCKETS PULL BALLS A LITTLE', 'MAGNET'] },
-  { id: 'strong', k: 'bless', n: 3, w: 3, hu: ['ERŐS LÖKÉS', '+20% ERŐ', 'ERŐS'], en: ['POWER SHOT', '+20% POWER', 'POWER'] },
-  { id: 'slow',   k: 'bless', n: 3, w: 3, hu: ['LASSÚ MÉRŐ', 'LASSABB ERŐMÉRŐ', 'LASSÚ'], en: ['SLOW METER', 'SLOWER POWER METER', 'SLOW'] },
-  { id: 'shield', k: 'bless', n: 4, w: 3, hu: ['MÁSODIK ESÉLY', 'A KÖVETKEZŐ BEESETT FEHÉR NEM VISZ ÉLETET', 'PAJZS'], en: ['SECOND CHANCE', 'NEXT SCRATCH COSTS NO LIFE', 'SHIELD'] },
-  { id: 'guide',  k: 'bless', n: 2, w: 3, hu: ['CSILLAGTÉRKÉP', 'TELJES CÉLZÓVONAL', 'TÉRKÉP'], en: ['STAR MAP', 'FULL AIMING LINE', 'MAP'] },
-  { id: 'wide',   k: 'bless', n: 2, w: 3, hu: ['NAGY ZSEBEK', 'NAGYOBBAK A LYUKAK', 'NAGY ZSEB'], en: ['WIDE POCKETS', 'BIGGER POCKETS', 'WIDE'] },
-  { id: 'double', k: 'bless', n: 2, w: 2, hu: ['PLUSZ PONT', 'GOLYÓNKÉNT 150 PONT', 'PLUSZ PONT'], en: ['BONUS POINTS', '150 POINTS PER BALL', 'BONUS'] },
-  { id: 'extra',  k: 'bless', n: 4, w: 3, hu: ['MÉG EGY ESÉLY', 'EGY HIBÁNÁL NEM VESZTED EL A KÖRT', 'ESÉLY'], en: ['ANOTHER GO', 'ONE MISS KEEPS YOUR TURN', 'ANOTHER'] },
-  { id: 'ghost',  k: 'bless', n: 2, w: 3, hu: ['SZELLEMFEHÉR', 'A FEHÉR NEM ESHET BE', 'SZELLEM'], en: ['GHOST CUE', 'THE CUE BALL CANNOT FALL IN', 'GHOST'] },
-  { id: 'calm',   k: 'bless', n: 3, w: 2, hu: ['NYUGODT KÉZ', 'LASSABB, PONTOSABB CÉLZÁS', 'NYUGALOM'], en: ['CALM HANDS', 'SLOWER, FINER AIMING', 'CALM'] },
+  { id: 'curve',  k: 'curse', n: 3, w: 3, hu: ['GÖRBE GOLYÓ', 'A FEHÉR NAGY ÍVBEN MEGY', 'GÖRBE'], en: ['CURVE BALL', 'THE CUE BALL CURVES HARD', 'CURVE'] },
+  { id: 'halfpt', k: 'curse', n: 3, w: 2, hu: ['FÉL PONT', 'GOLYÓNKÉNT CSAK 50 PONT', 'FÉL PONT'], en: ['HALF POINTS', 'ONLY 50 POINTS PER BALL', 'HALF PTS'] },
+  { id: 'quake',  k: 'curse', q: 2, w: 2, hu: ['FÖLDRENGÉS', 'KÖRE ELEJÉN MEGRÁZKÓDIK AZ ASZTAL', 'RENGÉS'], en: ['EARTHQUAKE', 'THE TABLE SHAKES AT TURN START', 'QUAKE'] },
+  { id: 'wind',   k: 'curse', n: 3, w: 3, hu: ['KOZMIKUS SZÉL', 'ERŐSEN FÚJJA A GURULÓ GOLYÓKAT', 'SZÉL'], en: ['COSMIC WIND', 'BLOWS ROLLING BALLS HARD', 'WIND'] },
+  { id: 'hole',   k: 'curse', n: 3, w: 3, hu: ['FEKETE LYUK', 'AZ ASZTAL KÖZEPE BESZÍVJA A GOLYÓKAT', 'FEKETE LYUK'], en: ['BLACK HOLE', 'THE CENTRE PULLS THE BALLS IN', 'BLACK HOLE'] },
+  { id: 'steal1', k: 'curse', n: 0, w: 2, hu: ['ESÉLYTOLVAJ', '-1 ESÉLY AZ ELLENFÉLNEK', ''], en: ['CHANCE THIEF', '-1 CHANCE FOR THE OPPONENT', ''] },
+  { id: 'goblin', k: 'curse', n: 0, w: 2, hu: ['PONTLOPÓ MANÓ', 'ELLOP 150 PONTOT ÉS NEKED HOZZA', ''], en: ['POINT GOBLIN', 'STEALS 150 POINTS AND BRINGS THEM TO YOU', ''] },
+  // blessings (for yourself)
+  { id: 'magnet', k: 'bless', n: 3, w: 3, hu: ['MÁGNESES ZSEB', 'A ZSEBEK ERŐSEN MAGUKHOZ HÚZNAK', 'MÁGNES'], en: ['MAGNET POCKETS', 'POCKETS PULL BALLS IN', 'MAGNET'] },
+  { id: 'strong', k: 'bless', n: 3, w: 3, hu: ['ERŐS LÖKÉS', '+30% ERŐ', 'ERŐS'], en: ['POWER SHOT', '+30% POWER', 'POWER'] },
+  { id: 'slow',   k: 'bless', n: 3, w: 3, hu: ['LASSÚ MÉRŐ', 'FELE OLYAN GYORS ERŐMÉRŐ', 'LASSÚ'], en: ['SLOW METER', 'POWER METER AT HALF SPEED', 'SLOW'] },
+  { id: 'shield', k: 'bless', n: 5, w: 3, hu: ['MÁSODIK ESÉLY', 'A KÖVETKEZŐ BEESETT FEHÉR NEM VISZ ÉLETET', 'PAJZS'], en: ['SECOND CHANCE', 'NEXT SCRATCH COSTS NO LIFE', 'SHIELD'] },
+  { id: 'guide',  k: 'bless', n: 3, w: 3, hu: ['CSILLAGTÉRKÉP', 'TELJES CÉLZÓVONAL', 'TÉRKÉP'], en: ['STAR MAP', 'FULL AIMING LINE', 'MAP'] },
+  { id: 'wide',   k: 'bless', n: 3, w: 3, hu: ['NAGY ZSEBEK', 'HARMADÁVAL NAGYOBB LYUKAK', 'NAGY ZSEB'], en: ['WIDE POCKETS', 'POCKETS A THIRD BIGGER', 'WIDE'] },
+  { id: 'double', k: 'bless', n: 3, w: 2, hu: ['DUPLA PONT', 'GOLYÓNKÉNT 200 PONT', 'DUPLA'], en: ['DOUBLE POINTS', '200 POINTS PER BALL', 'DOUBLE'] },
+  { id: 'extra',  k: 'bless', n: 5, w: 3, hu: ['MÉG EGY ESÉLY', 'EGY HIBÁNÁL NEM VESZTED EL A KÖRT', 'ESÉLY'], en: ['ANOTHER GO', 'ONE MISS KEEPS YOUR TURN', 'ANOTHER'] },
+  { id: 'plus2',  k: 'bless', n: 0, w: 2, hu: ['PLUSZ ESÉLY', '+2 ESÉLY', ''], en: ['EXTRA CHANCES', '+2 CHANCES', ''] },
+  { id: 'ghost',  k: 'bless', n: 3, w: 3, hu: ['SZELLEMFEHÉR', 'A FEHÉR NEM ESHET BE', 'SZELLEM'], en: ['GHOST CUE', 'THE CUE BALL CANNOT FALL IN', 'GHOST'] },
+  { id: 'calm',   k: 'bless', n: 4, w: 2, hu: ['NYUGODT KÉZ', 'LASSABB, PONTOSABB CÉLZÁS', 'NYUGALOM'], en: ['CALM HANDS', 'SLOWER, FINER AIMING', 'CALM'] },
   { id: 'life',   k: 'bless', n: 0, w: 1, hu: ['ÚJ ÉLET', '+1 ÉLET', ''], en: ['EXTRA LIFE', '+1 LIFE', ''] },
   { id: 'lsteal', k: 'bless', n: 0, w: 1, hu: ['ÉLETLOPÁS', 'ELVESZEL 1 ÉLETET (HA NEKI TÖBB VAN)', ''], en: ['LIFE STEAL', 'TAKE 1 LIFE (IF THEY HAVE MORE)', ''] },
   { id: 'cleanse',k: 'bless', n: 0, w: 2, hu: ['TISZTÍTÁS', 'MINDEN ÁTKOD ELTŰNIK', ''], en: ['CLEANSE', 'ALL YOUR CURSES VANISH', ''] },
   { id: 'mirror', k: 'bless', n: 0, w: 1, hu: ['TÜKÖR', 'AZ ÁTKAID AZ ELLENFÉLRE SZÁLLNAK', ''], en: ['MIRROR', 'YOUR CURSES MOVE TO THE OPPONENT', ''] },
-  { id: 'comet',  k: 'bless', n: 2, w: 2, hu: ['ÜSTÖKÖS', 'A FEHÉR ALIG LASSUL', 'ÜSTÖKÖS'], en: ['COMET', 'THE CUE BALL BARELY SLOWS', 'COMET'] }
+  { id: 'comet',  k: 'bless', n: 3, w: 2, hu: ['ÜSTÖKÖS', 'A FEHÉR ALIG LASSUL', 'ÜSTÖKÖS'], en: ['COMET', 'THE CUE BALL BARELY SLOWS', 'COMET'] }
 ];
 const CARD = Object.fromEntries(CARDS.map(c => [c.id, c]));
 function cardText(c) { return c[lang] || c.en; }
@@ -438,6 +441,8 @@ function applyCard(pi, c) {
       case 'goblin': startGoblin(1 - pi, pi); break;
       case 'life': me.lives++; break;
       case 'lsteal': if (foe.lives > me.lives) { foe.lives--; me.lives++; } else me.score += 100; break;
+      case 'steal1': foe.chances = Math.max(1, (foe.chances || 1) - 1); break;
+      case 'plus2': me.chances = (me.chances || 0) + 2; break;
       case 'cleanse': me.fx = me.fx.filter(f => CARD[f.id].k !== 'curse'); break;
       case 'mirror': { const cs = me.fx.filter(f => CARD[f.id].k === 'curse'); me.fx = me.fx.filter(f => CARD[f.id].k !== 'curse'); for (const f of cs) addFx(foe, f); break; }
     }
@@ -445,7 +450,7 @@ function applyCard(pi, c) {
   }
   const target = c.k === 'curse' ? foe : me;
   const f = { id: c.id, left: c.n || c.q };
-  if (c.id === 'wind') { const d = (Math.random() * 4) | 0; f.wx = [38, 0, -38, 0][d]; f.wy = [0, 38, 0, -38][d]; f.arrow = ['>', 'V', '<', '^'][d]; }
+  if (c.id === 'wind') { const d = (Math.random() * 4) | 0; f.wx = [55, 0, -55, 0][d]; f.wy = [0, 55, 0, -55][d]; f.arrow = ['>', 'V', '<', '^'][d]; }
   if (c.id === 'curve') f.sign = Math.random() < 0.5 ? -1 : 1;
   addFx(target, f);
 }
@@ -461,27 +466,27 @@ function computeMods(pi) {
   for (const f of p.fx) {
     switch (f.id) {
       case 'drunk': m.drunk = true; break;
-      case 'half': phys.powerMul *= 0.7; break;
-      case 'strong': phys.powerMul *= 1.2; break;
-      case 'fast': phys.meterMul *= 1.55; break;
-      case 'slow': phys.meterMul *= 0.7; break;
+      case 'half': phys.powerMul *= 0.6; break;
+      case 'strong': phys.powerMul *= 1.3; break;
+      case 'fast': phys.meterMul *= 2; break;
+      case 'slow': phys.meterMul *= 0.5; break;
       case 'blind': m.blind = true; break;
       case 'rev': m.rev = true; break;
-      case 'ice': phys.decel *= 0.6; phys.damp *= 0.7; break;
-      case 'glue': phys.decel *= 1.45; phys.damp *= 1.3; break;
-      case 'tight': phys.pocketMul *= 0.85; break;
-      case 'wide': phys.pocketMul *= 1.18; break;
+      case 'ice': phys.decel *= 0.45; phys.damp *= 0.55; break;
+      case 'glue': phys.decel *= 1.75; phys.damp *= 1.5; break;
+      case 'tight': phys.pocketMul *= 0.75; break;
+      case 'wide': phys.pocketMul *= 1.33; break;
       case 'shaky': m.shaky = true; break;
       case 'dark': m.dark = true; break;
-      case 'dead': phys.ew = 0.5; break;
-      case 'curve': phys.curve = 40 * (f.sign || 1); break;
+      case 'dead': phys.ew = 0.4; break;
+      case 'curve': phys.curve = 60 * (f.sign || 1); break;
       case 'wind': phys.wind = { x: f.wx, y: f.wy }; break;
       case 'hole': phys.hole = true; break;
       case 'magnet': phys.magnet = true; break;
       case 'ghost': phys.ghost = true; break;
       case 'guide': m.guide = true; break;
       case 'calm': m.calm = true; break;
-      case 'comet': phys.damp *= 0.6; phys.decel *= 0.8; break;
+      case 'comet': phys.damp *= 0.45; phys.decel *= 0.7; break;
     }
   }
   return m;
@@ -491,7 +496,7 @@ function quakeTable() {
   for (const b of G.balls) {
     if (b.in) continue;
     for (let k = 0; k < 8; k++) {
-      const nx = b.x + (Math.random() - 0.5) * 10, ny = b.y + (Math.random() - 0.5) * 10;
+      const nx = b.x + (Math.random() - 0.5) * 14, ny = b.y + (Math.random() - 0.5) * 14;
       if (spotFree(LV, G.balls, nx, ny, b)) { b.x = nx; b.y = ny; break; }
     }
   }
@@ -526,8 +531,8 @@ const GOB_LEGS = [
 
 function startGoblin(from, to) {
   const fp = G.players[from], tp = G.players[to];
-  const amt = Math.min(100, fp.score);
-  G.gob = { from, to, amt, fromStart: fp.score, toStart: tp.score, st: 'in', t: 0, x: VIEW.w + 10, y: gobSpot(from).y, face: -1, full: false, parts: [], wink: false };
+  const amt = Math.min(150, fp.score);
+  G.gob = { from, to, amt, fromStart: fp.score, toStart: tp.score, st: 'in', t: 0, x: VIEW.wide ? -14 : VIEW.w + 10, y: gobSpot(from).y, face: -1, full: false, parts: [], wink: false };
   G.phase = 'goblin';
   showMsg(t('goblinMsg'), 99);
   vib([40, 40, 40]);
@@ -535,8 +540,22 @@ function startGoblin(from, to) {
 }
 function rowY(i) { return 4 + i * 11 - 5; }
 // where the goblin stands next to a player's score, and where that score is (canvas pixels)
-function gobSpot(i) { return VIEW.wide ? { x: VIEW.ox + (i === 0 ? 30 : 226), y: VIEW.oy + 46 } : { x: 84, y: rowY(i) }; }
-function gobScore(i) { return VIEW.wide ? { x: i === 0 ? 14 : VIEW.w - 14, y: 26 } : { x: 50 + Math.random() * 30, y: rowY(i) + 8 }; }
+function hudBlock(i) {                 // a player's block in the left side panel, in canvas pixels
+  const el = document.querySelectorAll('#hudLp .pp')[i];
+  if (!el) return null;
+  const r = el.getBoundingClientRect(), kx = VIEW.w / innerWidth, ky = VIEW.h / innerHeight;
+  return { x0: r.left * kx, x1: r.right * kx, y0: r.top * ky, y1: r.bottom * ky };
+}
+function gobSpot(i) {
+  if (!VIEW.wide) return { x: 84, y: rowY(i) };
+  const b = hudBlock(i);
+  return b ? { x: b.x1 + 9, y: b.y0 + 2 } : { x: VIEW.ox + 30, y: VIEW.oy + 46 };
+}
+function gobScore(i) {
+  if (!VIEW.wide) return { x: 50 + Math.random() * 30, y: rowY(i) + 8 };
+  const b = hudBlock(i);
+  return b ? { x: b.x0 + (b.x1 - b.x0) * (0.3 + Math.random() * 0.4), y: b.y0 + 14 } : { x: 14, y: 26 };
+}
 
 function goblinUpdate(dt) {
   const g = G.gob, fp = G.players[g.from], tp = G.players[g.to];
@@ -573,7 +592,7 @@ function goblinUpdate(dt) {
       if (g.t > 0.25 && !g.winked) { g.winked = true; [880, 1320].forEach((f, i) => beep(f, 0.08, 'square', 0.05, 0, i * 0.09)); }
       if (g.t > 1.1) { g.wink = false; g.st = 'out'; g.t = 0; }
       break;
-    case 'out': if (walk(VIEW.w + 16, VIEW.wide ? 170 : 120)) finishGoblin(); break;
+    case 'out': if (walk(VIEW.wide ? -18 : VIEW.w + 16, VIEW.wide ? 110 : 120)) finishGoblin(); break;
   }
   for (const p of g.parts) p.t += dt * 2.4;
   g.parts = g.parts.filter(p => p.t < 1);
@@ -638,7 +657,7 @@ function cpuCardsUpdate(dt) {
     G.lastPick = { k: (G.lastPick ? G.lastPick.k : 0) + 1, pi, id: c.id };
     G.phase = 'wait'; G.timer = 0.6;
     applyCard(pi, c);
-    if (c.id !== 'goblin') showMsg(t('picked', { p: p.name, c: cardText(c)[0] }), 2.4);
+    if (c.id !== 'goblin') { showMsg(t('picked', { p: p.name, c: cardText(c)[0] }), 2.4); showPickReveal(pi, c.id); }
   }
 }
 
@@ -685,6 +704,25 @@ function showCardScreen(reveal) {
   if (reveal && document.activeElement) document.activeElement.blur();
 }
 
+// big banner in the middle: who picked what, and who it hits (everyone sees it)
+let revealTimer = 0;
+function showPickReveal(pi, id) {
+  const c = CARD[id], p = G.players[pi], foe = G.players[1 - pi];
+  if (!c || id === 'goblin') return;                // the goblin shows itself
+  const [name, desc] = cardText(c);
+  const box = $('pickReveal');
+  box.className = 'reveal ' + c.k;
+  box.querySelector('.who').textContent = t('revealPick', { p: p.name });
+  box.querySelector('.kind').textContent = (c.k === 'curse' ? '- ' : '+ ') + t(c.k) + (c.k === 'curse' ? ' -' : ' +');
+  box.querySelector('.name').textContent = name;
+  box.querySelector('.desc').textContent = desc;
+  box.querySelector('.to').textContent = c.k === 'curse' ? t('revealTo', { p: foe ? foe.name : '' }) : t('revealSelf', { p: p.name });
+  box.classList.remove('hidden');
+  sfx(c.k === 'curse' ? 'scratch' : 'perfect');
+  clearTimeout(revealTimer);
+  revealTimer = setTimeout(() => box.classList.add('hidden'), 3000);
+}
+
 function pickCard(i) {
   if (!G || G.phase !== 'cards') return;
   if (isGuest()) { Net.send({ t: 'pick', i }); hideOverlay(); G.phase = 'netwait'; return; }
@@ -695,7 +733,8 @@ function pickCard(i) {
   showMsg(t('picked', { p: G.players[G.cardFor].name, c: cardText(c)[0] }), 2.2);
   sfx('perfect');
   if (!G.net || G.cardFor === G.net.me) hideOverlay();
-  G.phase = 'wait'; G.timer = 0.8;
+  G.phase = 'wait'; G.timer = c.id === 'goblin' ? 0.8 : 3.0;
+  showPickReveal(G.cardFor, c.id);
   if (c.id === 'goblin') startGoblin(1 - G.cardFor, G.cardFor);
   else netSendState();
 }
@@ -719,16 +758,17 @@ function newGame(mode, opt = {}) {
   if (opt.code === undefined) pendingCode = null;
   G = {
     mode, diff: opt.diff || 'medium', net: opt.net || null, dev: mode === '2p' ? (opt.dev || null) : null,
-    players: defs.map(p => ({ cpu: false, ...p, score: 0, lives: START_LIVES, fx: [], rack: [], st: { pots: 0, run: 0, bestRun: 0, scr: 0, shoo: 0, combo: 0 } })),
+    players: defs.map(p => ({ cpu: false, ...p, score: 0, lives: START_LIVES, chances: 3, fx: [], rack: [], st: { pots: 0, run: 0, bestRun: 0, scr: 0, shoo: 0, combo: 0 } })),
     cards: mode === 'solo' ? false : (opt.cards !== undefined ? opt.cards : cardsOn),
     runSeed: opt.runSeed || (((Math.random() * 0x3FFFFFFF) | 0) + 1), code: code || null,
-    mods: {}, prank: null, prankCool: 4, aimOff: 0, turnStart: true, shake: 0, moveT: 0, miss: 0,
+    mods: {}, prank: null, prankCool: 4, aimOff: 0, turnStart: true, shake: 0, moveT: 0,
     cur: 0, stage: 1, balls: [], parts: [], combo: null, remoteAim: null, lastPick: null,
     phase: 'aim', angle: 0, starD: STAR_DIST, power: POWER_MIN, chDir: 1, starSpin: 0,
     visit: 0, shot: null, msg: '', msgT: 0, timer: 0, ai: null, paused: false, overShown: false
   };
   if (G.net) G.net.aimT = 0;
   loadStage(G.code ? G.code.stage : 1);
+  for (const p of G.players) p.chances = maxChances(G.stage);
   G.mods = computeMods(0);
   Music.setMode('game');
   showMsg(t('stage', { n: G.stage }), 1.6);
@@ -759,7 +799,7 @@ function cur() { return G.players[G.cur]; }
 function shoot(angle, power, raw) {
   const c = G.balls[0];
   if (!raw) angle += G.aimOff;
-  if (G.mods.shaky) power = Math.max(0.1, Math.min(1, power * (1 + (Math.random() - 0.5) * 0.24)));
+  if (G.mods.shaky) power = Math.max(0.1, Math.min(1, power * (1 + (Math.random() - 0.5) * 0.4)));
   c.vx = Math.cos(angle) * shotSpeed(power);
   c.vy = Math.sin(angle) * shotSpeed(power);
   G.moveT = 0;
@@ -1013,7 +1053,7 @@ function endShot() {
   let pass = false;
   const n = s.potted.length;
   if (n) {
-    const mult = (hasFx(p, 'double') ? 1.5 : 1) * (hasFx(p, 'halfpt') ? 0.5 : 1);
+    const mult = (hasFx(p, 'double') ? 2 : 1) * (hasFx(p, 'halfpt') ? 0.5 : 1);
     let pts = 0;
     for (const num of s.potted) pts += num === GOLD ? GOLD_POINTS : POINTS_PER_BALL;
     pts = Math.round(pts * mult * (n >= 2 ? n : 1) / 10) * 10;
@@ -1022,19 +1062,20 @@ function endShot() {
     p.st.pots += n; p.st.run += n; p.st.bestRun = Math.max(p.st.bestRun, p.st.run); p.st.combo = Math.max(p.st.combo, n);
     if (n >= 2) { G.combo = { s: comboText(n), t: 1.6 }; sfx('combo'); vib([30, 40, 30]); }
     if (s.potted.includes(GOLD)) showMsg(t('goldMsg'), 1.8);
-    G.miss = 0;
+    p.chances = Math.max(p.chances, maxChances(G.stage));       // a pot refills the chances
   }
   if (s.scratch) {
     respotCue(); pass = true; p.st.run = 0; p.st.scr++;
     if (hasFx(p, 'shield')) { dropFx(p, 'shield'); showMsg(t('saved'), 1.8); sfx('perfect'); }
-    else { p.lives--; showMsg(t('scratch'), 1.8); sfx('scratch'); vib(90); }
+    else { p.lives--; p.chances = maxChances(G.stage); showMsg(t('scratch'), 1.8); sfx('scratch'); vib(90); }
   } else if (!n) {
     p.st.run = 0;
-    if (solo) {
-      G.miss++;
-      if (G.miss >= SOLO_MISSES) { G.miss = 0; p.lives--; showMsg(t('missLife'), 1.8); sfx('scratch'); vib(90); }
-    } else if (hasFx(p, 'extra')) { dropFx(p, 'extra'); showMsg(t('extraUsed'), 1.6); }
-    else pass = true;
+    p.chances--;                                                   // a miss costs a chance
+    if (p.chances <= 0) { p.lives--; p.chances = maxChances(G.stage); showMsg(t('missLife'), 1.8); sfx('scratch'); vib(90); }
+    if (!solo) {
+      if (hasFx(p, 'extra')) { dropFx(p, 'extra'); showMsg(t('extraUsed'), 1.6); }
+      else pass = true;
+    }
   }
   if (n && !s.scratch && hasFx(p, 'one')) pass = true;
   if (solo) pass = false;
@@ -1043,7 +1084,13 @@ function endShot() {
   for (const f of p.fx) if (f.id !== 'quake') f.left--;
   p.fx = p.fx.filter(f => f.left > 0);
 
-  if (p.lives <= 0) { gameOver(solo ? -1 : 1 - G.cur); return; }
+  if (p.lives <= 0) {
+    // somebody ran out of lives: the game ends and the higher score wins (tie: the one with lives left)
+    if (solo) { gameOver(-1); return; }
+    const a = G.players[0].score, b2 = G.players[1].score;
+    gameOver(a !== b2 ? (a > b2 ? 0 : 1) : 1 - G.cur);
+    return;
+  }
 
   G.power = POWER_MIN; G.chDir = 1;
   G.phase = 'aim';
@@ -1079,7 +1126,8 @@ function transUpdate(dt) {
     if (isGuest()) { LV = prepLevel(buildLevel(levelSeed(T.next), T.next)); tableImg = buildTableImg(LV); G.balls = levelBalls(LV); G.levelCode = seedToCode(LV.seed, T.next); }
     else loadStage(T.next);
     for (const x of G.players) x.rack = [];
-    G.visit = 0; G.miss = 0; G.angle = 0; G.msgT = 0; G.parts = [];
+    G.visit = 0; G.angle = 0; G.msgT = 0; G.parts = [];
+    for (const x of G.players) x.chances = maxChances(T.next);
     sfx('stage');
   }
   if (T.t >= swapAt + TRANS.title) {
@@ -1424,7 +1472,7 @@ function drawAim() {
     ctx.fillStyle = 'rgba(255,255,255,0.7)';
     for (let d = R + 4; d < len; d += 4) if (Math.abs(d - G.starD) > 8) ctx.fillRect(Math.round(c.x + dx * d), Math.round(c.y + dy * d), 1, 1);
   }
-  if (!(G.mods.blind && (G.starSpin % 2.4) > 1.7)) drawStar(c.x + dx * G.starD, c.y + dy * G.starD, G.starSpin);
+  if (!(G.mods.blind && (G.starSpin % 2.4) > 1.25)) drawStar(c.x + dx * G.starD, c.y + dy * G.starD, G.starSpin);
 }
 
 function drawHUD() {
@@ -1441,20 +1489,24 @@ function drawHUD() {
     txt(p.name.padEnd(3, ' ').slice(0, 3), 8, y, i === G.cur ? (G.net && mine ? COL.gold : '#fff') : '#9890d8');
     txt(pad6(p.score), 36, y, '#fff');
     const shown = Math.min(p.lives, 4);
-    for (let k = 0; k < shown; k++) fillCircle(ctx, 90 + k * 6, y + 3, 2.3, '#e8443a');
-    if (p.lives > 4) { ctx.fillStyle = '#e8443a'; ctx.fillRect(112, y + 3, 3, 1); ctx.fillRect(113, y + 2, 1, 3); }
+    for (let k = 0; k < shown; k++) fillCircle(ctx, 88 + k * 6, y + 3, 2.3, '#e8443a');
+    if (p.lives > 4) { ctx.fillStyle = '#e8443a'; ctx.fillRect(110, y + 3, 3, 1); ctx.fillRect(111, y + 2, 1, 3); }
+    // blue = chances left (shots without a pot before losing a life)
+    const ch = Math.min(p.chances, 6);
+    for (let k = 0; k < ch; k++) fillCircle(ctx, 117 + k * 5, y + 3, 1.9, p.chances <= 1 && blink ? '#ff6a5a' : '#3a9af8');
     // balls this player potted on the current table
     p.rack.slice(0, 10).forEach((num, k) => {
-      const bx = Math.round(119 + k * 5.4);
+      const bx = Math.round(122 + Math.max(3, ch) * 5 + k * 5);
       fillCircle(ctx, bx, y + 3, 2.6, shade(BALL_COL[num], 0.5));
       fillCircle(ctx, bx, y + 3, 1.8, BALL_COL[num]);
     });
   });
-  if (G.mode === 'solo') {                      // practice: misses left before losing a life
+  if (G.mode === 'solo') {                      // practice: chances shown big on the 2nd row
+    const p = G.players[0], mx = maxChances(G.stage);
     txt(t('missHud'), 8, 15, '#9890d8');
-    for (let k = 0; k < SOLO_MISSES; k++) {
-      fillCircle(ctx, 57 + k * 9, 18, 3.5, '#5a5a66');
-      fillCircle(ctx, 57 + k * 9, 18, 2.6, k < SOLO_MISSES - G.miss ? '#3a7ae8' : '#000');
+    for (let k = 0; k < Math.max(mx, p.chances); k++) {
+      fillCircle(ctx, 66 + k * 9, 18, 3.5, '#5a5a66');
+      fillCircle(ctx, 66 + k * 9, 18, 2.6, k < p.chances ? '#3a9af8' : '#000');
     }
   }
   txt(t('stageHud') + ' ' + String(G.stage).padStart(2, '0'), 252, 4, '#fff', 'right');
@@ -1550,8 +1602,8 @@ function render() {
     const c = G.balls[0];
     ctx.beginPath();
     ctx.rect(-600, VIEW.wide ? -600 : 40, 1600, 1600);
-    ctx.arc(c.x, c.y, 50, 0, Math.PI * 2, true);
-    ctx.fillStyle = 'rgba(2,0,10,0.86)';
+    ctx.arc(c.x, c.y, 40, 0, Math.PI * 2, true);
+    ctx.fillStyle = 'rgba(2,0,10,0.9)';
     ctx.fill('evenodd');
   }
   drawCombo(time);
@@ -1573,6 +1625,7 @@ function playerPanel(i) {
   h += '<div class="nm">' + (turn && G.players.length > 1 ? '&#9654; ' : '') + p.name + '</div>';
   h += '<div class="sc">' + pad6(p.score) + '</div>';
   h += '<div class="lv">' + '<i></i>'.repeat(Math.min(p.lives, 6)) + (p.lives > 6 ? '+' : '') + '</div>';
+  h += '<div class="ch">' + '<i></i>'.repeat(Math.max(0, Math.min(p.chances, 7))) + '</div>';
   h += '<div class="rk">' + p.rack.map(n => '<i style="background:' + BALL_COL[n] + '"></i>').join('') + '</div>';
   if (thinking) h += '<div class="th">' + t('thinking', { p: '' }).trim() + '</div>';
   for (const f of p.fx) { const c = CARD[f.id]; h += '<div class="fx ' + c.k + '">' + cardText(c)[2] + (f.arrow || '') + ' ' + f.left + '</div>'; }
@@ -1580,16 +1633,11 @@ function playerPanel(i) {
 }
 function updateWideHud() {
   let L = playerPanel(0), Rr = '';
-  if (G.players.length > 1) Rr += playerPanel(1);
-  else {
-    Rr += '<div class="pp"><div class="nm">' + t('missHud') + '</div><div class="miss">';
-    for (let k = 0; k < SOLO_MISSES; k++) Rr += '<i class="' + (k < SOLO_MISSES - G.miss ? 'on' : '') + '"></i>';
-    Rr += '</div></div>';
-  }
-  Rr += '<div class="meta">' + t('stageHud') + ' ' + String(G.stage).padStart(2, '0') + '<br><span>' + t('hiHud') + ' ' +
+  if (G.players.length > 1) L += playerPanel(1);
+  L += '<div class="meta">' + t('stageHud') + ' ' + String(G.stage).padStart(2, '0') + '<br><span>' + t('hiHud') + ' ' +
     pad6(Math.max(topHi(), ...G.players.filter((p, i) => G.net ? i === G.net.me : !p.cpu).map(p => p.score))) + '</span></div>';
   const sig = L + '|' + Rr;
-  if (sig !== hudSig) { hudSig = sig; $('hudLp').innerHTML = L; $('hudRp').innerHTML = Rr; }
+  if (sig !== hudSig) { hudSig = sig; $('hudLp').innerHTML = L; }
   const filled = G.phase === 'aim' ? Math.ceil(G.power * 12 - 0.001) : 0;
   if (filled !== hudPow) {
     hudPow = filled;
@@ -1957,7 +2005,7 @@ function showGameOver() {
     r.forEach(c => { const td = document.createElement(ri === 0 ? 'th' : 'td'); td.textContent = c; tr.appendChild(td); });
     tb.appendChild(tr);
   });
-  $('overNote').textContent = G.newHi ? t('newHi') : '';
+  $('overNote').textContent = (G.newHi ? t('newHi') + ' ' : '') + (G.players.length > 1 && G.winner >= 0 ? t('winPts') : '');
   showScreen('scrOver');
 }
 
@@ -2096,8 +2144,8 @@ function netSendState() {
   if (!isHost()) return;
   Net.send({
     t: 'state', phase: G.phase, timer: G.timer, cur: G.cur, stage: G.stage, seed: LV.seed, lvT: LV.t,
-    players: G.players.map(p => ({ score: p.score, lives: p.lives, fx: p.fx, rack: p.rack, st: p.st })),
-    balls: G.balls.map(packBall), cardFor: G.cardFor, pick: G.lastPick, winner: G.winner, miss: G.miss, visit: G.visit
+    players: G.players.map(p => ({ score: p.score, lives: p.lives, ch: p.chances, fx: p.fx, rack: p.rack, st: p.st })),
+    balls: G.balls.map(packBall), cardFor: G.cardFor, pick: G.lastPick, winner: G.winner, visit: G.visit
   });
 }
 function netShotStart() {
@@ -2172,14 +2220,15 @@ function tryApplyState() {
     G.levelCode = seedToCode(LV.seed, s.stage);
     if (newStage) showMsg(t('stage', { n: s.stage }), 1.6);
   }
-  s.players.forEach((ps, i) => Object.assign(G.players[i], { score: ps.score, lives: ps.lives, fx: ps.fx, rack: ps.rack, st: ps.st }));
+  s.players.forEach((ps, i) => Object.assign(G.players[i], { score: ps.score, lives: ps.lives, chances: ps.ch, fx: ps.fx, rack: ps.rack, st: ps.st }));
   G.balls = unpackBalls(s.balls);
   LV.t = s.lvT; syncBumpers();
   if (G.cur !== s.cur) G.remoteAim = null;
-  G.cur = s.cur; G.miss = s.miss; G.visit = s.visit; G.cardFor = s.cardFor;
+  G.cur = s.cur; G.visit = s.visit; G.cardFor = s.cardFor;
   if (s.pick && (!G.lastPick || s.pick.k !== G.lastPick.k)) {
     G.lastPick = s.pick;
     showMsg(t('picked', { p: G.players[s.pick.pi].name, c: cardText(CARD[s.pick.id])[0] }), 2.2);
+    if (!G.players[s.pick.pi].cpu) showPickReveal(s.pick.pi, s.pick.id);
   }
   switch (s.phase) {
     case 'over':
@@ -2324,7 +2373,7 @@ function update(dt, pad) {
   updateParts(dt);
   G.starSpin += dt * 3.2;
   if (G.phase !== 'moving') G.mods = computeMods(G.cur);
-  G.aimOff = G.mods.drunk ? Math.sin(G.starSpin * 0.6) * 0.08 + Math.sin(G.starSpin * 1.7) * 0.03 : 0;
+  G.aimOff = G.mods.drunk ? Math.sin(G.starSpin * 0.6) * 0.13 + Math.sin(G.starSpin * 1.7) * 0.05 : 0;
   if (G.net && G.net.pending) tryApplyState();
   if (G.phase === 'aim' && G.turnStart && !isGuest()) {
     G.turnStart = false;

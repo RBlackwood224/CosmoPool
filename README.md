@@ -6,7 +6,7 @@ A retro pixel-art pool game set among the stars, inspired by the 8-bit arcade po
 
 ## About the game
 
-Aim with a spinning star, push it further out for precise shots, watch the power meter pulse up and down, and press once to shoot at just the right moment. Pot a ball and you shoot again. Miss and it's your opponent's turn. If the cue ball drops, you lose a life.
+Aim with a spinning star, push it further out for precise shots, watch the power meter pulse up and down, and press once to shoot at just the right moment. Pot a ball and you shoot again. Miss and it's your opponent's turn, and it costs you one of your **chances** (the blue dots). Run out of chances and you lose a life, just like in the old Lunar Ball. Potting a ball refills your chances. You get 3 chances on the first tables, 4 from table 6 and 5 from table 11. If the cue ball drops, you lose a life. When someone runs out of lives the game ends, and the player with more points wins.
 
 The first table is a classic one. After that, every table is different: octagons, crosses, hourglasses, L-shapes, two rooms joined by a doorway… with 4 to 8 pockets, flipper-style bumpers (some of them moving), walls, wormholes and the occasional golden ball. The run goes on as long as your lives last.
 
@@ -18,7 +18,7 @@ The first table is a classic one. After that, every table is different: octagons
 - **Endless practice mode**: just you, the tables and your lives.
 - **Random tables**: every stage is generated and always solvable. Each one has a level code, so you can replay it or share it.
 - **Combos**: pot several balls with one shot for DOUBLE!, TRIPLE! and bigger multipliers.
-- **Blessing & curse cards** (optional): whoever falls behind on a table picks one of three cards. Drunk aim, black holes, magnet pockets, ghost cue ball and 30+ more. You can watch the CPU pick its card too.
+- **Blessing & curse cards** (optional): whoever falls behind on a table picks one of three cards. Drunk aim, black holes, magnet pockets, ghost cue ball and 30+ more. Every pick pops up in the middle of the screen for everyone: who picked what, and who it hits. Chance Thief and Extra Chances work with the chance dots, and most effects now last 3 shots.
 - **The Point Goblin**: a sneaky little goblin who bags points from one player and hands them to the other.
 - **The Goblin Duel**: on very rare occasions a goblin grabs the ball you were aiming at. Then comes a 5-second button-mashing tug of war. The shooter mashes to scare him away, the opponent mashes to help him push the ball far away.
 - Smooth table-to-table transitions, neon title screen, animated galaxy background, chiptune-style sound effects
@@ -35,7 +35,7 @@ The first table is a classic one. After that, every table is different: octagons
 | **Touch** | Slide a finger anywhere | (by distance) | SHOT button | II button |
 | **Controller** | D-pad / left stick (LB / RB = fine) | D-pad ↑ ↓ / right stick | A | Start |
 
-On phones, turn the device sideways. The table then fills the screen and the scores move to the sides. On iPhone, use *Share → Add to Home Screen* to play full screen.
+On phones, turn the device sideways. The table then fills the screen, both players' scores sit stacked on the left and the power meter on the right. On iPhone, use *Share → Add to Home Screen* to play full screen.
 
 ## Privacy
 
